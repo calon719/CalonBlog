@@ -149,7 +149,7 @@
 <p>竟然說沒有要提交的檔案，用 <code>ls</code> 指令確認確實有新增 diary 資料夾，我們再用 <code>git status</code> 確認一次狀態：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
 
-<p>出現一樣的訊息提示，到底怎麼回事？<br>其實在<a href="/CalonBlog/2022/05/12/%E5%AD%B8%E7%BF%92-Git-5-%E6%AA%A2%E8%A6%96-commit-%E7%B4%80%E9%8C%84/">學習 Git_(5) - 檢視 commit 紀錄</a>有提到 Git 在計算、產生物件時，會根據<strong>檔案內容</strong>來做計算，所以如果只有新增空資料夾，Git 無法處理所以沒辦法提交 commit。</p>
+<p>出現一樣的訊息提示，到底怎麼回事？<br>其實在<a href="/CalonBlog/2022/05/12/%E5%AD%B8%E7%BF%92-Git-5-%E6%AA%A2%E8%A6%96-commit-%E7%B4%80%E9%8C%84/">學習 Git (5) - 檢視 commit 紀錄</a>有提到 Git 在計算、產生物件時，會根據<strong>檔案內容</strong>來做計算，所以如果只有新增空資料夾，Git 無法處理所以沒辦法提交 commit。</p>
 <p>但我還是想要先將 diary 資料夾提交 commit 怎麼辦？<br>可以先在資料夾裡面新增預計要新增的空檔案，或是暫時不想要有檔案顯示在資料夾裡面也可以新增以小數點開頭的隱藏空檔案，例如 .keep：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">touch</span> diary/.keep</span><br><span class="line">$ git status</span><br><span class="line">Untracked files:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to include <span class="keyword">in</span> what will be committed)</span><br><span class="line">      diary/</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use <span class="string">&quot;git add&quot;</span> to track)</span><br></pre></td></tr></table></figure>
 

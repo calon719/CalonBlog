@@ -48,7 +48,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2022-07-29 21:53:44'
+  postUpdate: '2022-07-29 22:11:37'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -150,7 +150,7 @@ $ mkdir diary$ git add diaryOn branch masternothing to commit, working tree clea
 竟然說沒有要提交的檔案，用 ls 指令確認確實有新增 diary 資料夾，我們再用 git status 確認一次狀態：
 $ git statusOn branch masternothing to commit, working tree clean
 
-出現一樣的訊息提示，到底怎麼回事？其實在學習 Git_(5) - 檢視 commit 紀錄有提到 Git 在計算、產生物件時，會根據檔案內容來做計算，所以如果只有新增空資料夾，Git 無法處理所以沒辦法提交 commit。
+出現一樣的訊息提示，到底怎麼回事？其實在學習 Git (5) - 檢視 commit 紀錄有提到 Git 在計算、產生物件時，會根據檔案內容來做計算，所以如果只有新增空資料夾，Git 無法處理所以沒辦法提交 commit。
 但我還是想要先將 diary 資料夾提交 commit 怎麼辦？可以先在資料夾裡面新增預計要新增的空檔案，或是暫時不想要有檔案顯示在資料夾裡面也可以新增以小數點開頭的隱藏空檔案，例如 .keep：
 $ touch diary/.keep$ git statusU ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/CalonBlog/2022/05/12/%E5%AD%B8%E7%BF%92-Git-5-%E6%AA%A2%E8%A6%96-commit-%E7%B4%80%E9%8C%84/" title="學習 Git (5) - 檢視 commit 紀錄"><img class="post_bg" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="this.onerror=null;this.src='/CalonBlog/img/404.jpg'" alt="學習 Git (5) - 檢視 commit 紀錄"></a></div><div class="recent-post-info"><a class="article-title" href="/CalonBlog/2022/05/12/%E5%AD%B8%E7%BF%92-Git-5-%E6%AA%A2%E8%A6%96-commit-%E7%B4%80%E9%8C%84/" title="學習 Git (5) - 檢視 commit 紀錄">學習 Git (5) - 檢視 commit 紀錄</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2022-05-12T14:46:45.000Z" title="發表於 2022-05-12 22:46:45">2022-05-12</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/CalonBlog/categories/Git/">Git</a></span></div><div class="content">介紹完 Git 進行版控的完整流程後，來看怎麼檢視我們提交的 commit 紀錄。我們如果要查看我們提交過的可以使用 git log：
 $ git logcommit 140cd3101a11fe081d160049744e382351f4add0 (HEAD -&gt; master)Author: Calon &lt;calon@mail.com&gt;Date:   Thu May 12 21:42:42 2022 +0800    新增 helloWorld.txt
