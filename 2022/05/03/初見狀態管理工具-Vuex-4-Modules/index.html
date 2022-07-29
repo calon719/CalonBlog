@@ -1,0 +1,243 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>初見狀態管理工具 Vuex (4) - Modules | Calon's Blog</title><meta name="keywords" content="Vue,Vuex,初見狀態管理工具 Vuex"><meta name="author" content="Calon"><meta name="copyright" content="Calon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="當專案越來越大時，Vuex 允許我們將 store 切分成 modules 來方便管理，並且每個 module 都有自己的 state、mutations、getters、actions： const moduleA &#x3D; &amp;#123;  &#x2F;&#x2F; 注意 state 是個 function  state: () &#x3D;&gt; (&amp;#123;...&amp;#125;),  getters: &amp;#123;...&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初見狀態管理工具 Vuex (4) - Modules">
+<meta property="og:url" content="https://calon719.github.io/CalonBlog/2022/05/03/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-4-Modules/index.html">
+<meta property="og:site_name" content="Calon&#39;s Blog">
+<meta property="og:description" content="當專案越來越大時，Vuex 允許我們將 store 切分成 modules 來方便管理，並且每個 module 都有自己的 state、mutations、getters、actions： const moduleA &#x3D; &amp;#123;  &#x2F;&#x2F; 注意 state 是個 function  state: () &#x3D;&gt; (&amp;#123;...&amp;#125;),  getters: &amp;#123;...&amp;#">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg">
+<meta property="article:published_time" content="2022-05-02T17:53:27.000Z">
+<meta property="article:modified_time" content="2022-05-02T17:53:27.000Z">
+<meta property="article:author" content="Calon">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="Vuex">
+<meta property="article:tag" content="初見狀態管理工具 Vuex">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg"><link rel="shortcut icon" href="/CalonBlog/img/favicon.png"><link rel="canonical" href="https://calon719.github.io/CalonBlog/2022/05/03/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-4-Modules/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/CalonBlog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/CalonBlog/',
+  algolia: {"appId":"62YA7568QH","apiKey":"6fa9b41fa3a54b2b67dec7a9c51b195c","indexName":"Calon's Blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜尋文章","hits_empty":"找不到您查詢的內容：${query}","hits_stats":"找到 ${hits} 條結果，用時 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '初見狀態管理工具 Vuex (4) - Modules',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-03 01:53:27'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/CalonBlog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/CalonBlog/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/CalonBlog/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/CalonBlog/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/CalonBlog/">Calon's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">初見狀態管理工具 Vuex (4) - Modules</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2022-05-02T17:53:27.000Z" title="發表於 2022-05-03 01:53:27">2022-05-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2022-05-02T17:53:27.000Z" title="更新於 2022-05-03 01:53:27">2022-05-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/CalonBlog/categories/Vue/">Vue</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><p>當專案越來越大時，Vuex 允許我們將 store 切分成 modules 來方便管理，並且每個 module 都有自己的 state、mutations、getters、actions：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  <span class="comment">// 注意 state 是個 function</span></span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> (&#123;...&#125;),</span><br><span class="line">  <span class="attr">getters</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;...&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> moduleB = &#123;</span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> (&#123;...&#125;),</span><br><span class="line">  <span class="attr">getters</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;...&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">getters</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;...&#125;,</span><br><span class="line">  <span class="attr">modules</span>: &#123;</span><br><span class="line">    moduleA,</span><br><span class="line">    moduleB,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>而調用 modules 裡面的資料時只要在原本的 state 後面接上 <code>module.module 的 state</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">text</span>: <span class="string">&#x27;I\&#x27;m a module.&#x27;</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">modules</span>: &#123;</span><br><span class="line">    moduleA,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 調用 moduleA 的 state 裡的 text</span></span><br><span class="line">store.<span class="property">state</span>.<span class="property">moduleA</span>.<span class="property">text</span>;</span><br></pre></td></tr></table></figure>
+
+<p>調用 getters、mutations、actions 則和之前的寫法一樣：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">text</span>: <span class="string">&#x27;moduleA&#x27;</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="attr">getters</span>: &#123;</span><br><span class="line">    <span class="title function_">reverseText</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> textArr = state.<span class="property">text</span>.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">      <span class="keyword">return</span> textArr.<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    <span class="title function_">addExclamationMark</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      state.<span class="property">text</span> = <span class="string">`<span class="subst">$&#123;state.text&#125;</span>!`</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="keyword">async</span> <span class="title function_">fetchRandomUser</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> json = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://randomuser.me/api/&#x27;</span>)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>());</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(json);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">modules</span>: &#123;</span><br><span class="line">    moduleA,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 調用 moduleA 裡面的 getters、mutations、actions</span></span><br><span class="line">store.<span class="property">getters</span>.<span class="property">reverseText</span>;</span><br><span class="line">store.<span class="title function_">commit</span>(<span class="string">&#x27;addExclamationMark&#x27;</span>);</span><br><span class="line">store.<span class="title function_">dispatch</span>(<span class="string">&#x27;fetchRandomUser&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-mapState-導入-modules-的-state"><a href="#使用-mapState-導入-modules-的-state" class="headerlink" title="使用 mapState 導入 modules 的 state"></a>使用 mapState 導入 modules 的 state</h2><p>我們可以使用 mapState 裡面傳入物件並搭配 function 來導入 modules 的 state：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">computed</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapState</span>(&#123;</span><br><span class="line">    <span class="attr">text</span>: <span class="function">(<span class="params">state</span>) =&gt;</span> state.<span class="property">moduleA</span>.<span class="property">text</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>而 mapGetters、mapMutations、mapActions 和之前的用法一樣。</p>
+<h2 id="取得外層-store-物件的-state-和-getters"><a href="#取得外層-store-物件的-state-和-getters" class="headerlink" title="取得外層 store 物件的 state 和 getters"></a>取得外層 store 物件的 state 和 getters</h2><p>在 module 裡面 getters 和 actions 都可以取得外層的 state，getters 還可以取得外層的 getters，只要在 getters、actions 的方法裡面帶上第三個參數 <code>rootState</code> 就可以取得外層的 state，而在 getters 帶上第四個參數 <code>rootGetters</code>，則可以取得外層 getters：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  <span class="attr">getters</span>: &#123;</span><br><span class="line">    <span class="title function_">getRootState</span>(<span class="params">state, getters, rootState, rootGetters</span>) &#123;...&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="title function_">fetch</span>(<span class="params">context</span>) &#123; context.<span class="property">rootState</span>... &#125;,</span><br><span class="line">    <span class="comment">// 也可以使用物件解構 &#123; rootState &#125;</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Namespacing"><a href="#Namespacing" class="headerlink" title="Namespacing"></a>Namespacing</h2><p>在上面的範例裡面我們可以發現調用 modules 的 getters、mutations、actions 時，不用像調用 state 時一樣加上 module 對應的名稱，如果我們這時在外層與 modules 裡面的 getters、mutations、actions 各有一個相同的名稱的方法，那結果會怎樣？</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  <span class="attr">state</span>: <span class="function">() =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">text</span>: <span class="string">&#x27;moduleA&#x27;</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="attr">getters</span>: &#123;</span><br><span class="line">    <span class="title function_">reverseText</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> textArr = state.<span class="property">text</span>.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">      <span class="keyword">return</span> textArr.<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    <span class="title function_">commitText</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      state.<span class="property">text</span> += <span class="string">&#x27;!&#x27;</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="title function_">action</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;module action&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>: &#123;</span><br><span class="line">    <span class="attr">text</span>: <span class="string">&#x27;store&#x27;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">getters</span>: &#123;</span><br><span class="line">    <span class="title function_">reverseText</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> textArr = state.<span class="property">text</span>.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">      <span class="keyword">return</span> textArr.<span class="title function_">reverse</span>().<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    <span class="title function_">commitText</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      state.<span class="property">text</span> += <span class="string">&#x27;!&#x27;</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="title function_">action</span>(<span class="params"></span>) &#123;</span><br><span class="line">       <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;store action&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">store.<span class="property">getters</span>.<span class="property">reverseText</span>;</span><br><span class="line">store.<span class="title function_">commit</span>(<span class="string">&#x27;commitText&#x27;</span>);</span><br><span class="line">store.<span class="title function_">dispatch</span>(<span class="string">&#x27;action&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>結果會是都有執行，並且 getters 會出現 <code>[vuex] duplicate getter key: reverseText</code> 的錯誤：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">store.<span class="property">getters</span>.<span class="property">reverseText</span>;</span><br><span class="line"><span class="comment">// 出現 getters 重複 key 的錯誤</span></span><br><span class="line"><span class="comment">// [vuex] duplicate getter key: reverseText</span></span><br><span class="line"><span class="comment">// 並會印出外層 store 的 getters：erots</span></span><br><span class="line"></span><br><span class="line">store.<span class="title function_">commit</span>(<span class="string">&#x27;commitText&#x27;</span>);</span><br><span class="line"><span class="comment">// 使用 dev tools 查看會發現兩個 text 都會被加上 !</span></span><br><span class="line"></span><br><span class="line">store.<span class="title function_">dispatch</span>(<span class="string">&#x27;action&#x27;</span>);</span><br><span class="line"><span class="comment">// 分別印出 store action 與 moduleA action</span></span><br></pre></td></tr></table></figure>
+
+<p>會出現這樣的結果是因為在預設狀態下 getters、mutations、actions 都是註冊在全域底下。</p>
+<p>那如果我就是想要有重複的命名但又想避免這樣的錯誤呢？<br>Vuex 也有提供方法來解決，只要在 modules 裡面加上 <code>namespaced: true</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line"> <span class="attr">namespaced</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>這樣 Vuex 就會自動幫我們在 getters、mutations、actions 前面根據 modules 的名稱加上對應的路徑，而我們要調用時就會變成下面這樣：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">store.<span class="property">getters</span>[<span class="string">&#x27;moduleA/reverseText&#x27;</span>];</span><br><span class="line">store.<span class="title function_">commit</span>(<span class="string">&#x27;moduleA/commitText&#x27;</span>);</span><br><span class="line">store.<span class="title function_">dispatch</span>(<span class="string">&#x27;moduleA/action&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>而 Namespace 一樣可以用 mapGetters、mapMutations、mapActions 來導入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">computed</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapGetters</span>([</span><br><span class="line">    <span class="string">&#x27;moduleA/reverseText&#x27;</span>, <span class="comment">// this[&#x27;moduleA/reverseText&#x27;]</span></span><br><span class="line">  ]),</span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapMutations</span>([</span><br><span class="line">    <span class="string">&#x27;moduleA/commitText&#x27;</span>, <span class="comment">// this[&#x27;moduleA/commitText&#x27;]</span></span><br><span class="line">  ]),</span><br><span class="line">  ...<span class="title function_">mapActions</span>([</span><br><span class="line">    <span class="string">&#x27;moduleA/action&#x27;</span>, <span class="comment">// this[&#x27;moduleA/action&#x27;]</span></span><br><span class="line">  ]),</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>如果覺得上面這樣寫太長太麻煩，我們可以在 mapGetters、mapMutations、mapActions 的第一個參數傳入 module 的路徑名稱：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">computed</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapGetters</span>(<span class="string">&#x27;moduleA&#x27;</span>, [</span><br><span class="line">    <span class="string">&#x27;reverseText&#x27;</span>, <span class="comment">// this.reverseText</span></span><br><span class="line">  ]),</span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapMutations</span>(<span class="string">&#x27;moduleA&#x27;</span>, [</span><br><span class="line">    <span class="string">&#x27;commitText&#x27;</span>, <span class="comment">// this.commitText&#x27;</span></span><br><span class="line">  ]),</span><br><span class="line">  <span class="comment">// 假設 moduleA 裡面有 moduleB，並且要導入 moduleB 的 actions</span></span><br><span class="line">  ...<span class="title function_">mapActions</span>(<span class="string">&#x27;moduleA/moduleB&#x27;</span>, [</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span>, <span class="comment">// this.action</span></span><br><span class="line">  ]),</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>你也可以用 Vuex 提供的 <code>createNamespacedHelpers</code> 來快入導入特定 module 裡面的 getters、mutations、actions：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createNamespacedHelpers &#125; <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">  mapState,</span><br><span class="line">  mapActions,</span><br><span class="line">  mapGetters,</span><br><span class="line">  mapMutations,</span><br><span class="line">  &#125; = <span class="title function_">createNamespacedHelpers</span>(<span class="string">&#x27;moduleA&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">computed</span>: &#123;</span><br><span class="line">    ...<span class="title function_">mapState</span>([<span class="string">&#x27;text&#x27;</span>]), <span class="comment">// moduleA.text</span></span><br><span class="line">    ...<span class="title function_">mapGetters</span>([<span class="string">&#x27;reverseText&#x27;</span>]), <span class="comment">// moduleA/reverseText</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    ...<span class="title function_">mapActions</span>([<span class="string">&#x27;fetchRandomUser&#x27;</span>]), <span class="comment">// moduleA/fetchRandomUser</span></span><br><span class="line">    ...<span class="title function_">mapMutations</span>([<span class="string">&#x27;commitText&#x27;</span>]), <span class="comment">// moduleA/commitText</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="調用外層-store-的-commit、dispatch"><a href="#調用外層-store-的-commit、dispatch" class="headerlink" title="調用外層 store 的 commit、dispatch"></a>調用外層 store 的 commit、dispatch</h2><p>如果想要在 module 裡使用外層的 mutations 或是 actions，我們只要在調用時傳入第三個參數 <code>&#123; root: true &#125;</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> moduleA = &#123;</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="title function_">commitAndDispatchRoot</span>(<span class="params">&#123; commit, dispatch &#125;</span>) &#123;</span><br><span class="line">      <span class="title function_">dispatch</span>(<span class="string">&#x27;fetchSomething&#x27;</span>, <span class="literal">null</span>, &#123; <span class="attr">root</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">      <span class="title function_">commit</span>(<span class="string">&#x27;commitSomething&#x27;</span>, <span class="literal">null</span>, &#123; <span class="attr">root</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    <span class="title function_">commitSomething</span>(<span class="params"></span>) &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="title function_">fetchSomething</span>(<span class="params"></span>) &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><ul>
+<li><a target="_blank" rel="noopener" href="https://vuex.vuejs.org/">Vuex 官方文件</a></li>
+<li>許國政（Kuro），《重新認識 Vue.js：008 天絕對看不完的 Vue.js 3 指南》</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/CalonBlog/tags/Vue/">Vue</a><a class="post-meta__tags" href="/CalonBlog/tags/Vuex/">Vuex</a><a class="post-meta__tags" href="/CalonBlog/tags/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex/">初見狀態管理工具 Vuex</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" data-sites="facebook,twitter"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/CalonBlog/2022/05/01/%E5%AD%B8%E7%BF%92-Git-4-%E6%B7%BA%E8%AB%87-Commit-%E8%A6%8F%E7%AF%84/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">學習 Git (4) - 淺談 Commit 規範</div></div></a></div><div class="next-post pull-right"><a href="/CalonBlog/2022/05/10/%E7%94%A8-ES6-%E8%AA%9E%E6%B3%95%E4%B8%B2%E6%8E%A5-API-Fetch/"><img class="next-cover" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">用 ES6 語法串接 API - Fetch</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/CalonBlog/2022/04/25/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-1-%E5%88%9D%E6%AD%A5%E6%8E%A5%E8%A7%B8%E8%88%87%E5%AE%89%E8%A3%9D%E5%B0%8E%E5%85%A5/" title="初見狀態管理工具 Vuex (1) 初步接觸與安裝導入"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-25</div><div class="title">初見狀態管理工具 Vuex (1) 初步接觸與安裝導入</div></div></a></div><div><a href="/CalonBlog/2022/04/26/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-2-State%E3%80%81Getters/" title="初見狀態管理工具 Vuex (2) State、Getters"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-26</div><div class="title">初見狀態管理工具 Vuex (2) State、Getters</div></div></a></div><div><a href="/CalonBlog/2022/04/27/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-3-Mutations%E3%80%81Actions/" title="初見狀態管理工具 Vuex (3) Mutations、Actions"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-27</div><div class="title">初見狀態管理工具 Vuex (3) Mutations、Actions</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-mapState-%E5%B0%8E%E5%85%A5-modules-%E7%9A%84-state"><span class="toc-text">使用 mapState 導入 modules 的 state</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E5%BE%97%E5%A4%96%E5%B1%A4-store-%E7%89%A9%E4%BB%B6%E7%9A%84-state-%E5%92%8C-getters"><span class="toc-text">取得外層 store 物件的 state 和 getters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Namespacing"><span class="toc-text">Namespacing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AA%BF%E7%94%A8%E5%A4%96%E5%B1%A4-store-%E7%9A%84-commit%E3%80%81dispatch"><span class="toc-text">調用外層 store 的 commit、dispatch</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #000000"><div id="footer-wrap"><div class="copyright">&copy;2022 By Calon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/CalonBlog/js/utils.js"></script><script src="/CalonBlog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/CalonBlog/js/search/algolia.js"></script><div class="js-pjax"><script>function loadUtterances () {
+  let ele = document.createElement('script')
+  ele.setAttribute('id', 'utterances_comment')
+  ele.setAttribute('src', 'https://utteranc.es/client.js')
+  ele.setAttribute('repo', 'calon719/CalonBlog')
+  ele.setAttribute('issue-term', 'pathname')
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+  ele.setAttribute('theme', nowTheme)
+  ele.setAttribute('crossorigin', 'anonymous')
+  ele.setAttribute('async', 'true')
+  document.getElementById('utterances-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function utterancesTheme () {
+  const iframe = document.querySelector('.utterances-frame')
+  if (iframe) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    const message = {
+      type: 'set-theme',
+      theme: theme
+    };
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+}
+
+if ('Utterances' === 'Utterances' || !true) {
+  if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+  else loadUtterances()
+} else {
+  function loadOtherComment () {
+    loadUtterances()
+  }
+}</script></div></div></body></html>

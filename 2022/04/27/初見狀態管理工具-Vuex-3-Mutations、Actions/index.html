@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>初見狀態管理工具 Vuex (3) Mutations、Actions | Calon's Blog</title><meta name="keywords" content="Vue,Vuex,初見狀態管理工具 Vuex"><meta name="author" content="Calon"><meta name="copyright" content="Calon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Mutations唯一可以在 store 裡面更改 state 的方法是裡面去使用 commit 一個 mutation 來改變 state。 export default &amp;#123;  state: &amp;#123;    people: 1, &amp;#125;,  mutations: &amp;#123;    increment(state) &amp;#123;      state.people +&#x3D; 1;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初見狀態管理工具 Vuex (3) Mutations、Actions">
+<meta property="og:url" content="https://calon719.github.io/CalonBlog/2022/04/27/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-3-Mutations%E3%80%81Actions/index.html">
+<meta property="og:site_name" content="Calon&#39;s Blog">
+<meta property="og:description" content="Mutations唯一可以在 store 裡面更改 state 的方法是裡面去使用 commit 一個 mutation 來改變 state。 export default &amp;#123;  state: &amp;#123;    people: 1, &amp;#125;,  mutations: &amp;#123;    increment(state) &amp;#123;      state.people +&#x3D; 1;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg">
+<meta property="article:published_time" content="2022-04-26T17:53:03.000Z">
+<meta property="article:modified_time" content="2022-04-26T17:53:03.000Z">
+<meta property="article:author" content="Calon">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="Vuex">
+<meta property="article:tag" content="初見狀態管理工具 Vuex">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg"><link rel="shortcut icon" href="/CalonBlog/img/favicon.png"><link rel="canonical" href="https://calon719.github.io/CalonBlog/2022/04/27/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-3-Mutations%E3%80%81Actions/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/CalonBlog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/CalonBlog/',
+  algolia: {"appId":"62YA7568QH","apiKey":"6fa9b41fa3a54b2b67dec7a9c51b195c","indexName":"Calon's Blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜尋文章","hits_empty":"找不到您查詢的內容：${query}","hits_stats":"找到 ${hits} 條結果，用時 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '初見狀態管理工具 Vuex (3) Mutations、Actions',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-27 01:53:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/CalonBlog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/CalonBlog/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/CalonBlog/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/CalonBlog/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/CalonBlog/">Calon's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">初見狀態管理工具 Vuex (3) Mutations、Actions</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2022-04-26T17:53:03.000Z" title="發表於 2022-04-27 01:53:03">2022-04-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2022-04-26T17:53:03.000Z" title="更新於 2022-04-27 01:53:03">2022-04-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/CalonBlog/categories/Vue/">Vue</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h2 id="Mutations"><a href="#Mutations" class="headerlink" title="Mutations"></a>Mutations</h2><p>唯一可以在 store 裡面更改 state 的方法是裡面去使用 <code>commit</code> 一個 mutation 來改變 state。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">state</span>: &#123;</span><br><span class="line">    <span class="attr">people</span>: <span class="number">1</span>,</span><br><span class="line"> &#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    <span class="title function_">increment</span>(<span class="params">state</span>) &#123;</span><br><span class="line">      state.<span class="property">people</span> += <span class="number">1</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 元件內</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="title function_">increment</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">commit</span>(<span class="string">&#x27;increment&#x27;</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在 store 的 mutations 物件裡面新增一個 increment 方法，而 state 會作為第一個參數帶入。<br>而在使用 mutation 時，我們不是直接調用一個 mutation，而是類似觸發事件的方式來調用 mutations 裡面的 function，已範例來講：我們觸發一個 <code>&#39;increment&#39;</code> 的 mutation 時，會調用 store 裡的 increment 函式，所以在 commit 裡面要帶入相對應的字串。</p>
+<p>接下來，我想要傳入參數去更改 state 的值要怎麼做？<br>很簡單，只要放在所要觸發的 mutation 的名稱後面就可以了：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">commit</span>(<span class="string">&#x27;increment&#x27;</span>, <span class="number">14</span>)</span><br></pre></td></tr></table></figure>
+
+<p>這個參數就叫做 <code>palyload</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">mutations</span>: &#123;</span><br><span class="line">  <span class="title function_">increment</span>(<span class="params">state, playload</span>) &#123;</span><br><span class="line">    state.<span class="property">people</span> += playload;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>在大多情況下，playload 應該會是一個物件，也就是想傳入多個參數時，應該以物件的方式傳入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">commit</span>(<span class="string">&#x27;increment&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">num</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">leader</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">mutaions</span>: &#123;</span><br><span class="line">  <span class="title function_">increment</span>(<span class="params">state, playload</span>) &#123;</span><br><span class="line">    state.<span class="property">people</span> += playload.<span class="property">num</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>另外我們也可以在 commit 時使用物件的方式來傳入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">commit</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;increment&#x27;</span>,</span><br><span class="line">  <span class="attr">num</span>: <span class="number">10</span>,</span><br><span class="line">  <span class="attr">leader</span>: <span class="string">&#x27;Tom&#x27;</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>※若是使用 Vue 2.x 的版本，在還未定義 state 的狀態時，需要使用 <code>Vue.$set(obj, &#39;...&#39;, value)</code>，才能寫入新狀態，而從 Vue 3 開始就沒此規定，但建議還是要先定義好需要的 state 再去更新 state 的狀態，以減少意料之外的狀態。</p>
+<h3 id="Mutations-必須是「同步」函式"><a href="#Mutations-必須是「同步」函式" class="headerlink" title="Mutations 必須是「同步」函式"></a>Mutations 必須是「同步」函式</h3><p>為了能清楚追蹤 state 的狀態，在 store 裡修改 state 狀態時只可<strong>透過 commit（提交）一個 mutation</strong> 來進行，如果使用了非同步函式因不知道什麼時候會回傳結果回來，就會導致狀態難以追蹤紀錄。</p>
+<h3 id="mapMutations"><a href="#mapMutations" class="headerlink" title="mapMutations"></a>mapMutations</h3><p>又見到 map 開頭的方法了。<br>沒錯，mutations 和 state、getter 一樣，可以使用 mapMutations 的方式方便我們在元件中快速導入多個 mutations，用法也大致相同：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mapMutations &#125; <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span>; <span class="comment">// 一樣要記得先導入</span></span><br><span class="line"></span><br><span class="line"><span class="attr">methods</span>: <span class="title function_">mapMutations</span>([</span><br><span class="line">  <span class="string">&#x27;toggleHungry&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;increment&#x27;</span>,</span><br><span class="line">]),</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="title function_">toggleHungry</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要傳入 playload 時</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="title function_">increment</span>(playload);</span><br></pre></td></tr></table></figure>
+
+<p>而要與其他 methods 結合時一樣使用物件展開的方式：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapMutations</span>([</span><br><span class="line">      <span class="string">&#x27;toggleHungry&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;increment&#x27;</span>,</span><br><span class="line">    ]),</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>可以使用物件方式帶入 mutations，並自定義 key：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="title function_">mapMutations</span>(&#123;</span><br><span class="line">  <span class="attr">toggle</span>: <span class="string">&#x27;toggleHungry&#x27;</span>,</span><br><span class="line">  <span class="title class_">Increment</span>: <span class="string">&#x27;increment&#x27;</span>,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+<br>
+
+<h2 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h2><p>上面提到因為 <strong>mutations 唯一能透過 commit 去修改 state 的狀態的方式</strong>，為了能追蹤到狀態，只能處理同步任務，所以 Vuex 提供了 actions 來處理非同步任務。<br>下面來串接 RANDOM USER GENERATOR 這個網站的 API 來寫一個簡單的範例：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title function_">createStore</span>(&#123;</span><br><span class="line">  <span class="attr">state</span>: &#123;</span><br><span class="line">    <span class="attr">userData</span>: &#123;&#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mutations</span>: &#123;</span><br><span class="line">    <span class="title function_">setUserData</span>(<span class="params">state, playload</span>) &#123;</span><br><span class="line">      state.<span class="property">userData</span> = playload;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">actions</span>: &#123;</span><br><span class="line">    <span class="title function_">fetchUserData</span>(<span class="params">context</span>) &#123;</span><br><span class="line">      <span class="title function_">fetch</span>(<span class="string">&#x27;https://randomuser.me/api/&#x27;</span>)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">          context.<span class="title function_">commit</span>(<span class="string">&#x27;setUserData&#x27;</span>);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在 actions 的方法裡第一個參數會帶入 context，如果我們用 <code>console.log()</code> 來查看 actions 的 context，會發現 context 是一個物件並且與 store 實體有著相同方法和屬性，但要注意它並不是 store 本身，因此我們可以用 commit 來觸發 mutation 的 setUserData（因為 state 只能用 commit 一個 mutation 來更改狀態，很重要所以在說一次！）去改變 state 的狀態。</p>
+<p>既然 context 是一個物件，我們也可以用物件解構的方式來取得裡面的屬性：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">actions</span>: &#123;</span><br><span class="line">  <span class="title function_">fn</span>(<span class="params">&#123; commit &#125;</span>) &#123;</span><br><span class="line">    <span class="title function_">commit</span>(<span class="string">&#x27;mutation&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們在元件內使用 <code>dispatch</code>（派發）來觸發 <code>fetchUserData</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">dispatch</span>(<span class="string">&#x27;fetchUserData&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 要傳進去的資料帶入第二個參數</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">dispatch</span>(<span class="string">&#x27;fetchUserData&#x27;</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也可以使用物件的形式傳入</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">dispatch</span>(&#123;</span><br><span class="line">  <span class="attr">type</span>: <span class="string">&#x27;fetchUserData&#x27;</span>,</span><br><span class="line">  <span class="attr">amount</span>: <span class="number">10</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如果剛才你有仔細看 context 裡面的內容的話會發現裡面也有一個 dispatch 屬性，所以我們也可以在一個 action 內 <code>dispatch</code> 另一個 action：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="title function_">fetchUserData</span>(<span class="params">context</span>) &#123;</span><br><span class="line">  context.<span class="title function_">dispatch</span>(<span class="string">&#x27;anotherAction&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要傳入參數的話只要在帶上第二個參數 <code>playload</code>，這裡的 <code>playload</code> 跟 mutations 的一樣是外面傳近來的參數：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">actions</span>: &#123;</span><br><span class="line">  <span class="title function_">fetchUserData</span>(<span class="params">context, playload</span>) &#123;</span><br><span class="line">    <span class="title function_">fetch</span>(<span class="string">&#x27;https://randomuser.me/api/&#x27;</span>)</span><br><span class="line">      .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">      .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">        context.<span class="title function_">commit</span>(<span class="string">&#x27;setUserData&#x27;</span>, &#123; ...res, <span class="attr">val</span>: playload &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>如果執行<code>dispatch</code> 回傳回來是一個 Promise 物件，我們也可以用 <code>then</code> 來鍊接：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">actions</span>: &#123;</span><br><span class="line">  <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://randomuser.me/api/&#x27;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">this</span>.<span class="property">$store</span>.<span class="title function_">dispatch</span>(<span class="string">&#x27;test&#x27;</span>)</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>())</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>也可以加上 <code>asnyc / await</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="attr">actions</span>: &#123;</span><br><span class="line">  <span class="keyword">async</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;https://randomuser.me/api/&#x27;</span>);</span><br><span class="line">    <span class="keyword">return</span> res.<span class="title function_">json</span>();</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">test2</span>(<span class="params">context</span>) &#123;</span><br><span class="line">    context.<span class="title function_">dispatch</span>(<span class="string">&#x27;test&#x27;</span>).<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(res);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="mapActions"><a href="#mapActions" class="headerlink" title="mapActions"></a>mapActions</h3><p>前 3 組都有可以輕鬆導入多個資料、方法的方式，actions 當然也有囉，就是 mapActions：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; mapActions &#125; <span class="keyword">from</span> <span class="string">&#x27;vuex&#x27;</span>; <span class="comment">// 一定要記得導入</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    ...<span class="title function_">mapAction</span>([<span class="string">&#x27;fetchUserData&#x27;</span>]),</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或是物件的方式</span></span><br><span class="line"><span class="attr">methods</span>: &#123;</span><br><span class="line">  ...<span class="title function_">mapAction</span>(&#123;</span><br><span class="line">    <span class="attr">getData</span>: <span class="string">&#x27;fetchUserData&#x27;</span></span><br><span class="line">  &#125;),</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><ul>
+<li><a target="_blank" rel="noopener" href="https://vuex.vuejs.org/">Vuex 官方文件</a></li>
+<li>許國政（Kuro），《重新認識 Vue.js：008 天絕對看不完的 Vue.js 3 指南》</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/CalonBlog/tags/Vue/">Vue</a><a class="post-meta__tags" href="/CalonBlog/tags/Vuex/">Vuex</a><a class="post-meta__tags" href="/CalonBlog/tags/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex/">初見狀態管理工具 Vuex</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" data-sites="facebook,twitter"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/CalonBlog/2022/04/26/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-2-State%E3%80%81Getters/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">初見狀態管理工具 Vuex (2) State、Getters</div></div></a></div><div class="next-post pull-right"><a href="/CalonBlog/2022/04/29/%E5%AD%B8%E7%BF%92-Git-3-%E9%96%8B%E5%A7%8B%E7%89%88%E6%8E%A7%E7%9A%84%E6%9C%80%E5%BE%8C%E4%B8%80%E6%AD%A5%EF%BC%9ACommit/"><img class="next-cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">學習 Git (3) - 開始版控的最後一步：Commit</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/CalonBlog/2022/04/25/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-1-%E5%88%9D%E6%AD%A5%E6%8E%A5%E8%A7%B8%E8%88%87%E5%AE%89%E8%A3%9D%E5%B0%8E%E5%85%A5/" title="初見狀態管理工具 Vuex (1) 初步接觸與安裝導入"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-25</div><div class="title">初見狀態管理工具 Vuex (1) 初步接觸與安裝導入</div></div></a></div><div><a href="/CalonBlog/2022/04/26/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-2-State%E3%80%81Getters/" title="初見狀態管理工具 Vuex (2) State、Getters"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-26</div><div class="title">初見狀態管理工具 Vuex (2) State、Getters</div></div></a></div><div><a href="/CalonBlog/2022/05/03/%E5%88%9D%E8%A6%8B%E7%8B%80%E6%85%8B%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7-Vuex-4-Modules/" title="初見狀態管理工具 Vuex (4) - Modules"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-05-03</div><div class="title">初見狀態管理工具 Vuex (4) - Modules</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Mutations"><span class="toc-text">Mutations</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Mutations-%E5%BF%85%E9%A0%88%E6%98%AF%E3%80%8C%E5%90%8C%E6%AD%A5%E3%80%8D%E5%87%BD%E5%BC%8F"><span class="toc-text">Mutations 必須是「同步」函式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapMutations"><span class="toc-text">mapMutations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Actions"><span class="toc-text">Actions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapActions"><span class="toc-text">mapActions</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #000000"><div id="footer-wrap"><div class="copyright">&copy;2022 By Calon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/CalonBlog/js/utils.js"></script><script src="/CalonBlog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/CalonBlog/js/search/algolia.js"></script><div class="js-pjax"><script>function loadUtterances () {
+  let ele = document.createElement('script')
+  ele.setAttribute('id', 'utterances_comment')
+  ele.setAttribute('src', 'https://utteranc.es/client.js')
+  ele.setAttribute('repo', 'calon719/CalonBlog')
+  ele.setAttribute('issue-term', 'pathname')
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+  ele.setAttribute('theme', nowTheme)
+  ele.setAttribute('crossorigin', 'anonymous')
+  ele.setAttribute('async', 'true')
+  document.getElementById('utterances-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function utterancesTheme () {
+  const iframe = document.querySelector('.utterances-frame')
+  if (iframe) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    const message = {
+      type: 'set-theme',
+      theme: theme
+    };
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+}
+
+if ('Utterances' === 'Utterances' || !true) {
+  if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+  else loadUtterances()
+} else {
+  function loadOtherComment () {
+    loadUtterances()
+  }
+}</script></div></div></body></html>

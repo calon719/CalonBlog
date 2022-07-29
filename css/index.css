@@ -5651,6 +5651,21 @@ blockquote.pullquote.right {
 .read-mode #article-container .note .note-icon {
   color: var(--font-color);
 }
+.custom-btn {
+  display: inline-block;
+  background-color: #49b1f5;
+  color: #fff;
+  padding: 0.3rem 3rem 0.25rem 3rem;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.custom-btn:hover {
+  background-color: #ff7242;
+  color: #fff;
+}
 .search-dialog {
   position: fixed;
   top: 10%;

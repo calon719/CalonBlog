@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>學習 Git (7) - 分支 | Calon's Blog</title><meta name="keywords" content="Git,學習 Git"><meta name="author" content="Calon"><meta name="copyright" content="Calon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在專案規模比較小時，可以一路往前提交 commit 到底也沒關係，但當今天專案越來越大，或是越來越多人一起開發同一個專案時，這時為了專案的穩定就不能隨意提交 commit 上去，而是會另外開分支來提交 commit，例如：新增新功能、修正 Bug、實驗新作法等，都可以額外開分支進行開發，等到確認沒問題後再合併回來。 開始使用分支首先我們可以先輸入 git branch： $ git branch*">
+<meta property="og:type" content="article">
+<meta property="og:title" content="學習 Git (7) - 分支">
+<meta property="og:url" content="https://calon719.github.io/CalonBlog/2022/05/19/%E5%AD%B8%E7%BF%92-Git-7-%E5%88%86%E6%94%AF/index.html">
+<meta property="og:site_name" content="Calon&#39;s Blog">
+<meta property="og:description" content="在專案規模比較小時，可以一路往前提交 commit 到底也沒關係，但當今天專案越來越大，或是越來越多人一起開發同一個專案時，這時為了專案的穩定就不能隨意提交 commit 上去，而是會另外開分支來提交 commit，例如：新增新功能、修正 Bug、實驗新作法等，都可以額外開分支進行開發，等到確認沒問題後再合併回來。 開始使用分支首先我們可以先輸入 git branch： $ git branch*">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg">
+<meta property="article:published_time" content="2022-05-19T12:42:52.000Z">
+<meta property="article:modified_time" content="2022-05-19T12:42:52.000Z">
+<meta property="article:author" content="Calon">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="學習 Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg"><link rel="shortcut icon" href="/CalonBlog/img/favicon.png"><link rel="canonical" href="https://calon719.github.io/CalonBlog/2022/05/19/%E5%AD%B8%E7%BF%92-Git-7-%E5%88%86%E6%94%AF/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/CalonBlog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/CalonBlog/',
+  algolia: {"appId":"62YA7568QH","apiKey":"6fa9b41fa3a54b2b67dec7a9c51b195c","indexName":"Calon's Blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜尋文章","hits_empty":"找不到您查詢的內容：${query}","hits_stats":"找到 ${hits} 條結果，用時 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '學習 Git (7) - 分支',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-19 20:42:52'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/CalonBlog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/CalonBlog/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/CalonBlog/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/CalonBlog/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/CalonBlog/">Calon's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">學習 Git (7) - 分支</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2022-05-19T12:42:52.000Z" title="發表於 2022-05-19 20:42:52">2022-05-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2022-05-19T12:42:52.000Z" title="更新於 2022-05-19 20:42:52">2022-05-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/CalonBlog/categories/Git/">Git</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><p>在專案規模比較小時，可以一路往前提交 commit 到底也沒關係，但當今天專案越來越大，或是越來越多人一起開發同一個專案時，這時為了專案的穩定就不能隨意提交 commit 上去，而是會另外開分支來提交 commit，例如：新增新功能、修正 Bug、實驗新作法等，都可以額外開分支進行開發，等到確認沒問題後再合併回來。</p>
+<h2 id="開始使用分支"><a href="#開始使用分支" class="headerlink" title="開始使用分支"></a>開始使用分支</h2><p>首先我們可以先輸入 <code>git branch</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* master</span><br></pre></td></tr></table></figure>
+
+<p>分支的操作都會使用到 <code>git branch</code>，而 <code>git branch</code> 在後面不加任何參數時會印出目前工作目錄有哪些分支，Git 預設會幫我們設定一個 master 的分支，master 前面的 * 則表示現在在 master 分支上。</p>
+<h3 id="新增分支"><a href="#新增分支" class="headerlink" title="新增分支"></a>新增分支</h3><p>新增分支的方式很簡單，一樣使用 <code>git branch</code>，這次在後面加上想要開出去的分支名稱：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<p>這樣一個名為 test 的分支就開好了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* master</span><br><span class="line">  <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="變更分支名稱"><a href="#變更分支名稱" class="headerlink" title="變更分支名稱"></a>變更分支名稱</h3><p>我們剛才新增了一個 test 分支，但後來覺得不是很喜歡想要改掉，這時我們可以加上參數 <code>-m</code>，後面先帶上要修改的分支名稱，最後在帶上想變成的分支名稱：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># git branch -m 想修改的分支 修改後的分支名稱</span></span><br><span class="line">$ git branch -m <span class="built_in">test</span> develop</span><br></pre></td></tr></table></figure>
+
+<p>執行完後來檢視一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">  develop</span><br><span class="line">* master</span><br></pre></td></tr></table></figure>
+
+<p>有成功改掉了，預設的 master 也可以改成想要的名稱：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -m master main</span><br><span class="line">$ git branch</span><br><span class="line">  develop</span><br><span class="line">* main</span><br></pre></td></tr></table></figure>
+
+<h3 id="切換分支"><a href="#切換分支" class="headerlink" title="切換分支"></a>切換分支</h3><p>接下來我們要切換到 develop 去做開發，首先先確認現在在哪個分支上：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">  develop</span><br><span class="line">* main</span><br></pre></td></tr></table></figure>
+
+<p>main 前面有 *，所以現在是在 main 分支上，現在我們要切換到 develop 分支，使用的指令是在<a href="/CalonBlog/2022/05/14/%E5%AD%B8%E7%BF%92-Git-%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%88%AA%E6%8E%89%E7%9A%84%E6%AA%94%E6%A1%88%E6%95%91%E7%9A%84%E5%9B%9E%E4%BE%86%E5%97%8E%EF%BC%9F/">學習 Git - 不小心刪掉的檔案救的回來嗎？</a>有提到的 <code>git checkout</code>，<code>git checkout</code> 後面加上分支名稱就可以切換到指定的分支上：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout develop</span><br><span class="line">Switched to branch <span class="string">&#x27;develop&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>執行完後我們來確認一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* develop</span><br><span class="line">  main</span><br></pre></td></tr></table></figure>
+
+<p>星號 * 跑到 develop 前面了，所以現在我們已經將分支切換到 develop。</p>
+<h4 id="切換到不存在的分支"><a href="#切換到不存在的分支" class="headerlink" title="切換到不存在的分支"></a>切換到不存在的分支</h4><p>如果我們使用 <code>git checkout</code> 切換到不存在的分支時會出現下面錯誤：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout nothing</span><br><span class="line">error:  pathspec <span class="string">&#x27;nothing&#x27;</span> did not match any file(s) known to git.</span><br></pre></td></tr></table></figure>
+
+<p>但每次都要先用 <code>git branch</code> 新增分支後再用 <code>git checkout</code> 切換過去好麻煩。<br>沒關係，在使用 <code>git checkout</code> 時可以加上 <code>-b</code> 參數來解決：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b nothing</span><br><span class="line">Switched to a new branch <span class="string">&#x27;nothing&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="切換分支的時候好像少了一些檔案？"><a href="#切換分支的時候好像少了一些檔案？" class="headerlink" title="切換分支的時候好像少了一些檔案？"></a>切換分支的時候好像少了一些檔案？</h4><p>在剛才新增的 develop 新增 work1.txt 和 work2.txt，接下來我們用 <code>ls</code> 指令來看一下在 develop 分支的工作目錄下有哪些檔案：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> al</span><br><span class="line">total 16</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 18 20:00 .</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 16 13:49 ..</span><br><span class="line">drwxrwxr-x 8 calon calon 4096  5月 18 20:00 .git</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 17:56 rule2.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 18:24 rule3.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    1  5月 16 17:56 rules.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 18 20:02 work1.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 18 20:02 work2.txt</span><br></pre></td></tr></table></figure>
+
+<p>現在我們切到 main 分支在檢視一次目錄底下的內容：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout main</span><br><span class="line">Switched to branch <span class="string">&#x27;main&#x27;</span></span><br><span class="line">$ <span class="built_in">ls</span> -al</span><br><span class="line">total 16</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 18 20:00 .</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 16 13:49 ..</span><br><span class="line">drwxrwxr-x 8 calon calon 4096  5月 18 20:00 .git</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 17:56 rule2.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 18:24 rule3.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    1  5月 16 17:56 rules.txt</span><br></pre></td></tr></table></figure>
+
+<p>剛才在 develop 分支底下新增的 work1.txt 和 work2.txt 都不見了？<br>不用擔心，檔案沒有消失，只要切回 develop 那些檔案就會出現了。</p>
+<h3 id="合併分支"><a href="#合併分支" class="headerlink" title="合併分支"></a>合併分支</h3><p>我們先來看一下 main 裡面的 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ccf65d1 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<p>我們在 ccf65d1 後開一個新的分支 develop，並且切換到 develop 後檢視一下 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch develop</span><br><span class="line">$ git checkout develop</span><br><span class="line">Switched to brach develop</span><br><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">ccf65d1 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<p>跟 main 的一樣，接下來就可以開始在此分支上進行開發，現在我們要來新增 2 個檔案並在 develop 分支分開提交 commit，也就是會有 2 個新 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">touch</span> work1.txt work2.txt</span><br><span class="line">$ git add work1.txt</span><br><span class="line">$ git commit -m <span class="string">&#x27;新增 work1.txt&#x27;</span></span><br><span class="line">[develop 6f5eefa] 新增 work1.txt</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 work1.txt</span><br></pre></td></tr></table></figure>
+
+<p>剛新增的 work2.txt 也是一樣執行 <code>git add</code> 和 <code>git commit</code> 提交上去，現在我們的 develop 分支上多了 2 個 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">4444f10 (HEAD -&gt; develop) 新增 work2.txt</span><br><span class="line">6f5eefa 新增 work1.txt</span><br><span class="line">ccf65d1 (main) 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<p>這時我們切回去 main 分支看檢視一下 commit 紀錄：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout main</span><br><span class="line">Switched to branch <span class="string">&#x27;main&#x27;</span></span><br><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">ccf65d1 (HEAD -&gt; main) 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<p>的確比 develop 分支少了 2 個 commit，接下來想要將開發用的 develop 合併回 main，首先我們要切回 main 分支，剛才檢視 main 的 commit 時已經有切換到 main 了，以防萬一還是再檢查一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">  develop</span><br><span class="line">* main</span><br></pre></td></tr></table></figure>
+
+<p>現在已經有切換到 main 分支了，接下來準備將 develop 合併回 main 分支，我們可以使用 <code>git merge</code>，後面加上想要合併回來的分支名稱，在這邊是 develop：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop</span><br><span class="line">Updating ccf65d1..4444f10</span><br><span class="line">Fast-forward</span><br><span class="line"> work1.txt | 0</span><br><span class="line"> work2.txt | 0</span><br><span class="line"> 2 files changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 work1.txt</span><br><span class="line"> create mode 100644 work2.txt</span><br></pre></td></tr></table></figure>
+
+<p>完成後用 <code>git log</code> 來確認一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">4444f10 (HEAD -&gt; main, develop) 新增 work2.txt</span><br><span class="line">6f5eefa 新增 work1.txt</span><br><span class="line">ccf65d1 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<h4 id="快轉模式（Fast-forward）"><a href="#快轉模式（Fast-forward）" class="headerlink" title="快轉模式（Fast-forward）"></a>快轉模式（Fast-forward）</h4><p>我們在上面將 develop 合併回 main 的時候有出現 Fast-forward 這個訊息，也就是快轉模式，因為 develop 是從 main 分出去的分支，而在 develop 要合併回 main 的時候，develop 除了多了 2 個新 commit 之外 main 有的 develop 都有，所以合併時並不會產生新的 commit。<br>我們可以使用 <code>git log</code> 並加上 <code>--graph</code> 參數來使用 ASCII 圖形檢視 commit 紀錄，首先是合併前的 main 分支：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --graph</span><br><span class="line">* ccf65d1 (HEAD -&gt; main) 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<p>在每個 commit 前面多了 * 的符號之外好像就沒有什麼不同，接下來我們將 develop 合併回來後再檢視一次：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop</span><br><span class="line">Updating ccf65d1..4444f10</span><br><span class="line">Fast-forward</span><br><span class="line"> work1.txt | 0</span><br><span class="line"> work2.txt | 0</span><br><span class="line"> 2 files changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 work1.txt</span><br><span class="line"> create mode 100644 work2.txt</span><br><span class="line">$ git <span class="built_in">log</span> --oneline --graph</span><br><span class="line">* 4444f10 (HEAD -&gt; main, develop) 新增 work2.txt</span><br><span class="line">* 6f5eefa 新增 work1.txt</span><br><span class="line">* ccf65d1 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<p>好像和上面介紹分支合併後的結果沒有差別，這是因為 Git 發現只要將 main 分支 commit 往前進到 develop 最新的 commit 即可完成合併，所以沒有額外產生合併的 commit 的關係。<br>這次我們在將 develop 合併回 main 前先在 main 分支新增 test.txt 檔案並提交一個新 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">touch</span> test.txt</span><br><span class="line">$ git add test.txt</span><br><span class="line">$ git commit -m <span class="string">&#x27;新增 test.txt&#x27;</span></span><br><span class="line">[main 595b530] 新增 test.txt</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 test.txt</span><br></pre></td></tr></table></figure>
+
+<p>這樣子 main 分支就會有 develop 上沒有的 commit 紀錄，接下來我們在將 develop 合併回 main：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop</span><br></pre></td></tr></table></figure>
+
+<p>執行之後因為不是使用快轉模式，所以會新增一個合併的 commit，這時會跳出 Vim 的視窗用來編輯這次合併的 commit，編輯完 commit 內容後一樣儲存離開：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop</span><br><span class="line">Merge made by the <span class="string">&#x27;recursive&#x27;</span> strategy.</span><br><span class="line"> work1.txt | 0</span><br><span class="line"> work2.txt | 0</span><br><span class="line"> 2 files changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 work1.txt</span><br><span class="line"> create mode 100644 work2.txt</span><br></pre></td></tr></table></figure>
+
+<p>有發現訊息不一樣了嗎？這次沒有出現 Fast-forward 了，接著使用 <code>git log --graph</code> 來檢視 commit 紀錄：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">*   485e562 (HEAD -&gt; main) Merge branch <span class="string">&#x27;develop&#x27;</span> into main</span><br><span class="line">|\</span><br><span class="line">| * 4444f10 (develop) 新增 work2.txt</span><br><span class="line">| * 6f5eefa 新增 work1.txt</span><br><span class="line">* | 595b530 新增 test.txt</span><br><span class="line">|/</span><br><span class="line">* ccf65d1 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
+<p>有發現有一個像耳朵的圖案了嗎？每個 * 代表一個 commit，&#x2F; 表示分出去的分支所新增的 commit，而 \ 則是合併回來的意思，在這邊合併時產生了新的 commit 所以 \ 會指向 485e562。</p>
+<h4 id="不使用快轉模式合併"><a href="#不使用快轉模式合併" class="headerlink" title="不使用快轉模式合併"></a>不使用快轉模式合併</h4><p>在上面有介紹過，當今天要合併回來的分支上 Git 發現它有的你也有，只是多出幾個 commit 時就會用快轉模式，而這時使用 <code>git log --graph</code> 來檢視 commit 紀錄就不會有分出去的小耳朵，如果希望每次合併回來都會有小耳朵的圖案，我們可以加上 <code>--no-ff</code> 讓 Git 不使用快轉模式進行合併：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop --no-ff</span><br></pre></td></tr></table></figure>
+
+<p>執行之後會跳出 Vim 的視窗，編輯完 commit 內容後一樣儲存離開：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop --no-ff</span><br><span class="line">Merge made by the <span class="string">&#x27;recursive&#x27;</span> strategy.</span><br><span class="line"> work1.txt | 0</span><br><span class="line"> work2.txt | 0</span><br><span class="line"> 2 files changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 work1.txt</span><br><span class="line"> create mode 100644 work2.txt</span><br></pre></td></tr></table></figure>
+
+<p>之後一樣用 <code>git log --oneline --graph</code> 來檢視一下紀錄：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --graph</span><br><span class="line">*   acfe38f (HEAD -&gt; main) Merge branch <span class="string">&#x27;develop&#x27;</span> into main</span><br><span class="line">|\</span><br><span class="line">| * 4444f10 (develop) 新增 work2.txt</span><br><span class="line">| * 6f5eefa 新增 work1.txt</span><br><span class="line">|/</span><br><span class="line">* ccf65d1 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<h3 id="刪除分支"><a href="#刪除分支" class="headerlink" title="刪除分支"></a>刪除分支</h3><p>我們已經成功地將 develop 合併回 main 上了，雖然 develop 分支留著也沒關係，但如果不想要我們也可以把它刪掉，記得在刪除之前要切到不是要刪除的分支上面在進行刪除，否則會出錯，而要刪除分支一樣是使用 <code>git branch</code> 指令，這次我們要加上 <code>-d</code> 這個參數：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git branch -d develop</span><br><span class="line">Delete branch develop (was 4444f10)</span><br></pre></td></tr></table></figure>
+
+<p>這樣子 Git 就會刪除 develop，如果是在合併之前使用則會出現以下提示：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch develop</span><br><span class="line">error: The branch <span class="string">&#x27;develop&#x27;</span> is not fully merged.</span><br><span class="line">If you are sure you want to delete it, run <span class="string">&#x27;git branch -D develop&#x27;</span>.</span><br></pre></td></tr></table></figure>
+
+<p>這是在提示我們 develop 的內容還沒有合併，如果你真的不想要這個分支的話上面訊息也有提到怎麼刪除，只要把 d 改成大寫 D 就可以了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -D develop</span><br><span class="line">Delete branch develop (was 4444f10)</span><br></pre></td></tr></table></figure>
+
+<h4 id="能救回還沒合併卻被刪掉的分支嗎？"><a href="#能救回還沒合併卻被刪掉的分支嗎？" class="headerlink" title="能救回還沒合併卻被刪掉的分支嗎？"></a>能救回還沒合併卻被刪掉的分支嗎？</h4><p>當然可以，還是的剛剛在刪除分支的時候的訊息嗎？</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -D develop</span><br><span class="line">Delete branch develop (was 4444f10)</span><br></pre></td></tr></table></figure>
+
+<p>後面的 4444f10 就是救回分支的關鍵，在刪除分支的時候不是將在分支上所建立的 commit 刪掉，可以將分支想像成一張便利貼，這張便利貼會指向該分支所新增的 commit，而當我們將分支刪除時只是把貼著分支名稱的便利貼拿掉而已，所以我們只要在重新新增一個分支並指向 4444f10 這個 commit 即可：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch new_develop 4444f10</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們將分支切到 new_develop 上，並檢視 new_develop 的 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout new_develop</span><br><span class="line">Switched to branch <span class="string">&#x27;new_develop&#x27;</span></span><br><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">4444f10 (HEAD -&gt; new_develop) 新增 work2.txt</span><br><span class="line">6f5eefa 新增 work1.txt</span><br><span class="line">ccf65d1 (main) 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<h2 id="當工作到一半需要切換到另一個分支時"><a href="#當工作到一半需要切換到另一個分支時" class="headerlink" title="當工作到一半需要切換到另一個分支時"></a>當工作到一半需要切換到另一個分支時</h2><p>有時候工作到一半時，會有緊急的突發狀況需要我們去處理，像是要修一些 bug 等，這時我們就需要切換分支去處理，為了避免將現有的工作內容不小心提交 commit 在其他分支，我們可以先將手邊的工作提交 commit 上去，等到處理完其他分支之後在切回原本的分支並使用 <code>git reset</code> 將做到一半的工作的 commit 給拆掉繼續接著做下去。</p>
+<p>而除了上述方法，我們在這邊介紹新的指令 <code>git stash</code></p>
+<h3 id="Stash"><a href="#Stash" class="headerlink" title="Stash"></a>Stash</h3><p>首先我們先來看一下目前 git 的狀態：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch main</span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">    modified:   test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">&quot;git add&quot;</span> and/or <span class="string">&quot;git commit -a&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我們目前正在 main 分支上，並正在修改 test.txt 這個檔案，這時突然需要切到別的分支去處理其他事情時我們可以使用 <code>git stash</code> 將這些檔案先暫時存起來：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git stash</span><br><span class="line">Saved working directory and index status WIP on main: 485e562 Merge branch <span class="string">&#x27;new_develop&#x27;</span> into main</span><br></pre></td></tr></table></figure>
+
+<p>如果是還處於 <strong>Untracked</strong> 狀態的檔案需要加上參數 <code>-u</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git stash -u</span><br></pre></td></tr></table></figure>
+
+<p>執行完之後我們可以使用 <code>git stash list</code> 來看一下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git stash list</span><br><span class="line">stash@&#123;0&#125;: WIP on main: 485e562 Merge branch <span class="string">&#x27;new_develop&#x27;</span> into main</span><br></pre></td></tr></table></figure>
+
+<p>stash@{0} 是 stash ID，WIP 是指 Working In Progress，也就是工作進行中的意思。而 stash 可以儲存很多份，如果我們在別的分支再新增一筆暫存的話：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git stash</span><br><span class="line">stash@&#123;0&#125;: WIP on develop: 4444f10 新增 work2.txt</span><br><span class="line">stash@&#123;1&#125;: WIP on main: 485e562 Merge branch &#x27;new_develop&#x27; into main</span><br></pre></td></tr></table></figure>
+
+<p>我們可以發現剛才的 WIP on main 這筆的 stash ID 變成 stash@{1} 了，而上面多出的 stash@{0} 這筆就是我們剛新增的暫存，也就是 ID 數字越小時間越新。</p>
+<p>接下來，當我們處理完其他分支的事情後想要拿回剛才的佔存檔要怎麼做？這邊我們可以使用 <code>git stash pop</code> 和 <code>git stash apply</code> 這 2 個指令來拿回我們剛才的工作進度，而這 2 個指令的差別在於：</p>
+<ol>
+<li><code>git stash pop</code> 會將指定的 stash 暫存拿出來套用在現在的分支上，並且<strong>刪掉</strong>該 stash 暫存。</li>
+<li><code>git stash apply</code> 將指定的 statsh 暫存套用在現在分支上後<strong>不刪除</strong>該 stash。</li>
+</ol>
+<p>所以如果確定要拿回的 stash 之後不需要的話可以使用 <code>git stash pop</code>，而以後還會用到則可以使用 <code>git stash apply</code>，我們這邊先使用 <code>git stash apply</code>，如果後面沒有指定 stash ID 的話預設是最新的一筆，而我們要撿回的工作進度的 stash ID 是 stash@{1} ，所以在這邊要加上 stash ID：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git stash apply stash@&#123;1&#125;</span><br><span class="line">On branch main</span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">    modified:   test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">&quot;git add&quot;</span> and/or <span class="string">&quot;git commit -a&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>這樣我們的工作進度救回來了。</p>
+<p>我們剛才是使用 <code>git stash apply</code>，也就是說將暫存撿回來後放在 stash 裡的存檔不會消失，如果有些暫存真的不需要的時候可以使用 <code>git stash drop</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git stash drop stash@&#123;1&#125;</span><br><span class="line">Dropped stash@&#123;1&#125;（107dda387eaf519a860c4979180d2dd390c2756f）</span><br></pre></td></tr></table></figure>
+
+<p>最後我們來使用 <code>git stash pop</code> 來撿回工作進度的暫存：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git stash pop stash@&#123;1&#125;</span><br><span class="line">On branch main</span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">    modified:   test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">&quot;git add&quot;</span> and/or <span class="string">&quot;git commit -a&quot;</span>)</span><br><span class="line">Dropped stash@&#123;1&#125;（107dda387eaf519a860c4979180d2dd390c2756f）</span><br></pre></td></tr></table></figure>
+
+<p>執行後出現的訊息是執行完 <code>git stash apply</code> 和 <code>git stash drop</code> 的結果，所以我們也可以將 <code>git stash pop</code> 看成是 <code>apply</code> 和 <code>drop</code> 的組合。</p>
+<hr>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><ul>
+<li>高見龍，《為你自己學 Git》</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/CalonBlog/tags/Git/">Git</a><a class="post-meta__tags" href="/CalonBlog/tags/%E5%AD%B8%E7%BF%92-Git/">學習 Git</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" data-sites="facebook,twitter"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/CalonBlog/2022/05/16/%E5%AD%B8%E7%BF%92-Git-6-%E4%BF%AE%E6%94%B9-commit-%E7%B4%80%E9%8C%84-part-3%EF%BC%9ARebase/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">學習 Git (6) - 修改 commit 紀錄 part 3：Rebase</div></div></a></div><div class="next-post pull-right"><a href="/CalonBlog/2022/05/20/%E5%AD%B8%E7%BF%92-Git-%E4%BB%80%E9%BA%BC%E6%98%AF-HEAD%EF%BC%9F/"><img class="next-cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">學習 Git - 什麼是 HEAD？</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/CalonBlog/2022/04/22/%E5%AD%B8%E7%BF%92-Git-1-%E5%AE%89%E8%A3%9D-Git-%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A/" title="學習 Git (1) - 安裝 Git &amp; 基本設定"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-22</div><div class="title">學習 Git (1) - 安裝 Git &amp; 基本設定</div></div></a></div><div><a href="/CalonBlog/2022/06/04/%E5%AD%B8%E7%BF%92-Git-10-Pull-%E8%88%87-Clone/" title="學習 Git (10) - Pull 與 Clone"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-04</div><div class="title">學習 Git (10) - Pull 與 Clone</div></div></a></div><div><a href="/CalonBlog/2022/04/25/%E5%AD%B8%E7%BF%92-Git-2-%E9%96%8B%E5%A7%8B%E4%BD%BF%E7%94%A8-Git-%E9%80%B2%E8%A1%8C%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="學習 Git (2) - 開始使用 Git 進行版本控制"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-25</div><div class="title">學習 Git (2) - 開始使用 Git 進行版本控制</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%96%8B%E5%A7%8B%E4%BD%BF%E7%94%A8%E5%88%86%E6%94%AF"><span class="toc-text">開始使用分支</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E5%88%86%E6%94%AF"><span class="toc-text">新增分支</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%8A%E6%9B%B4%E5%88%86%E6%94%AF%E5%90%8D%E7%A8%B1"><span class="toc-text">變更分支名稱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E6%8F%9B%E5%88%86%E6%94%AF"><span class="toc-text">切換分支</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8F%9B%E5%88%B0%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E5%88%86%E6%94%AF"><span class="toc-text">切換到不存在的分支</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8F%9B%E5%88%86%E6%94%AF%E7%9A%84%E6%99%82%E5%80%99%E5%A5%BD%E5%83%8F%E5%B0%91%E4%BA%86%E4%B8%80%E4%BA%9B%E6%AA%94%E6%A1%88%EF%BC%9F"><span class="toc-text">切換分支的時候好像少了一些檔案？</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E4%BD%B5%E5%88%86%E6%94%AF"><span class="toc-text">合併分支</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BF%AB%E8%BD%89%E6%A8%A1%E5%BC%8F%EF%BC%88Fast-forward%EF%BC%89"><span class="toc-text">快轉模式（Fast-forward）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%BF%AB%E8%BD%89%E6%A8%A1%E5%BC%8F%E5%90%88%E4%BD%B5"><span class="toc-text">不使用快轉模式合併</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%AA%E9%99%A4%E5%88%86%E6%94%AF"><span class="toc-text">刪除分支</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%83%BD%E6%95%91%E5%9B%9E%E9%82%84%E6%B2%92%E5%90%88%E4%BD%B5%E5%8D%BB%E8%A2%AB%E5%88%AA%E6%8E%89%E7%9A%84%E5%88%86%E6%94%AF%E5%97%8E%EF%BC%9F"><span class="toc-text">能救回還沒合併卻被刪掉的分支嗎？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%95%B6%E5%B7%A5%E4%BD%9C%E5%88%B0%E4%B8%80%E5%8D%8A%E9%9C%80%E8%A6%81%E5%88%87%E6%8F%9B%E5%88%B0%E5%8F%A6%E4%B8%80%E5%80%8B%E5%88%86%E6%94%AF%E6%99%82"><span class="toc-text">當工作到一半需要切換到另一個分支時</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Stash"><span class="toc-text">Stash</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #000000"><div id="footer-wrap"><div class="copyright">&copy;2022 By Calon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/CalonBlog/js/utils.js"></script><script src="/CalonBlog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/CalonBlog/js/search/algolia.js"></script><div class="js-pjax"><script>function loadUtterances () {
+  let ele = document.createElement('script')
+  ele.setAttribute('id', 'utterances_comment')
+  ele.setAttribute('src', 'https://utteranc.es/client.js')
+  ele.setAttribute('repo', 'calon719/CalonBlog')
+  ele.setAttribute('issue-term', 'pathname')
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+  ele.setAttribute('theme', nowTheme)
+  ele.setAttribute('crossorigin', 'anonymous')
+  ele.setAttribute('async', 'true')
+  document.getElementById('utterances-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function utterancesTheme () {
+  const iframe = document.querySelector('.utterances-frame')
+  if (iframe) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    const message = {
+      type: 'set-theme',
+      theme: theme
+    };
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+}
+
+if ('Utterances' === 'Utterances' || !true) {
+  if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+  else loadUtterances()
+} else {
+  function loadOtherComment () {
+    loadUtterances()
+  }
+}</script></div></div></body></html>

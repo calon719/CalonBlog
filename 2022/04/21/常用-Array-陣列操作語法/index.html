@@ -1,0 +1,368 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>常用 Array 陣列操作語法 | Calon's Blog</title><meta name="keywords" content="JavaScript,Array"><meta name="author" content="Calon"><meta name="copyright" content="Calon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="forEach() 不會回傳值，會將陣列內的每筆資料一筆一筆放到函式裡執行。 帶有 3 個參數： 第 1 個參數 item 為當下資料。（必填） 第 2 個參數 index 為當下資料的索引值。（選填） 第 3 個參數 array 為執行的陣列。（選填）    let ary &#x3D; [1,2,3];ary.forEach(function(item, index, array)&amp;#123;    &#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用 Array 陣列操作語法">
+<meta property="og:url" content="https://calon719.github.io/CalonBlog/2022/04/21/%E5%B8%B8%E7%94%A8-Array-%E9%99%A3%E5%88%97%E6%93%8D%E4%BD%9C%E8%AA%9E%E6%B3%95/index.html">
+<meta property="og:site_name" content="Calon&#39;s Blog">
+<meta property="og:description" content="forEach() 不會回傳值，會將陣列內的每筆資料一筆一筆放到函式裡執行。 帶有 3 個參數： 第 1 個參數 item 為當下資料。（必填） 第 2 個參數 index 為當下資料的索引值。（選填） 第 3 個參數 array 為執行的陣列。（選填）    let ary &#x3D; [1,2,3];ary.forEach(function(item, index, array)&amp;#123;    &#x2F;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg">
+<meta property="article:published_time" content="2022-04-21T13:01:36.000Z">
+<meta property="article:modified_time" content="2022-04-21T13:01:36.000Z">
+<meta property="article:author" content="Calon">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Array">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg"><link rel="shortcut icon" href="/CalonBlog/img/favicon.png"><link rel="canonical" href="https://calon719.github.io/CalonBlog/2022/04/21/%E5%B8%B8%E7%94%A8-Array-%E9%99%A3%E5%88%97%E6%93%8D%E4%BD%9C%E8%AA%9E%E6%B3%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/CalonBlog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/CalonBlog/',
+  algolia: {"appId":"62YA7568QH","apiKey":"6fa9b41fa3a54b2b67dec7a9c51b195c","indexName":"Calon's Blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜尋文章","hits_empty":"找不到您查詢的內容：${query}","hits_stats":"找到 ${hits} 條結果，用時 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常用 Array 陣列操作語法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-21 21:01:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/CalonBlog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/CalonBlog/archives/"><div class="headline">文章</div><div class="length-num">36</div></a><a href="/CalonBlog/tags/"><div class="headline">標籤</div><div class="length-num">17</div></a><a href="/CalonBlog/categories/"><div class="headline">分類</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/CalonBlog/">Calon's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">常用 Array 陣列操作語法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2022-04-21T13:01:36.000Z" title="發表於 2022-04-21 21:01:36">2022-04-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2022-04-21T13:01:36.000Z" title="更新於 2022-04-21 21:01:36">2022-04-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/CalonBlog/categories/JavaScript/">JavaScript</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><h2 id="forEach"><a href="#forEach" class="headerlink" title="forEach()"></a>forEach()</h2><ul>
+<li>不會回傳值，會將陣列內的每筆資料一筆一筆放到函式裡執行。</li>
+<li>帶有 3 個參數：<ol>
+<li>第 1 個參數 item 為當下資料。（必填）</li>
+<li>第 2 個參數 index 為當下資料的索引值。（選填）</li>
+<li>第 3 個參數 array 為執行的陣列。（選填）</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">forEach</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="comment">// 共 3 筆資料，函式執行 3 次</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(item); <span class="comment">// 1  // 2  // 3</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(index); <span class="comment">// 0  // 1  // 2</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(array); <span class="comment">// [1,2,3]  // [1,2,3]  // [1,2,3]</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="新增、刪除"><a href="#新增、刪除" class="headerlink" title="新增、刪除"></a>新增、刪除</h2><h3 id="push"><a href="#push" class="headerlink" title="push()"></a>push()</h3><p>在陣列的<strong>最後一筆後面</strong>新增資料，不限資料數量，多筆資料用逗號隔開。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">push</span>(<span class="number">4</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [1,2,3,4]</span></span><br><span class="line">ary.<span class="title function_">push</span>(<span class="number">5</span>,<span class="number">6</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [1,2,3,4,5,6]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="pop"><a href="#pop" class="headerlink" title="pop()"></a>pop()</h3><p>刪除陣列的<strong>最後一筆</strong>資料。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">pop</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [1,2]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="shift-、unshift"><a href="#shift-、unshift" class="headerlink" title="shift()、unshift()"></a>shift()、unshift()</h3><h4 id="shift"><a href="#shift" class="headerlink" title="shift()"></a>shift()</h4><p>刪除陣列<strong>第一筆</strong>資料。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">shift</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [2,3]</span></span><br></pre></td></tr></table></figure>
+<h4 id="unshift"><a href="#unshift" class="headerlink" title="unshift()"></a>unshift()</h4><ul>
+<li>與 <code>shift()</code> 相反，從陣列原本<strong>第一筆前面</strong>新增資料。</li>
+<li>跟 <code>push()</code> 一樣不限資料數量，多筆資料用逗號隔開。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">unshift</span>(-<span class="number">0</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [0,1,2,3]</span></span><br><span class="line">ary.<span class="title function_">unshift</span>(-<span class="number">2</span>,-<span class="number">1</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">//[-2,-1,0,1,2,3]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="splice"><a href="#splice" class="headerlink" title="splice()"></a>splice()</h3><pre><code>splice(start[, deleteCount[, item1[, item2[, ...]]]])
+</code></pre>
+<p>能新增或刪除陣列中的資料，帶有 3 個參數。</p>
+<ol>
+<li><code>第 1 個參數</code> 為要插入或刪除的索引位置。（必填）</li>
+<li><code>第 2 個參數</code> 為要刪除的資料數，會從 <code>第 1 個參數</code> 所指定的索引位置開始刪除指定資料數。若沒有需要刪除的資料則填 <code>0</code>；若不填則會刪除從指定的索引位置開始後面全部的資料。（選填）</li>
+<li><code>第 3 個參數</code> 為選填，填入要新增的資料數，會從 <code>第 1 個參數</code> 所指定的索引位置插入資料。（選填）</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary1 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">splice</span>(<span class="number">1</span>,<span class="number">0</span>,<span class="number">3</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary1); <span class="comment">// [1,3,2,3]</span></span><br><span class="line">ary.<span class="title function_">splice</span>(<span class="number">4</span>,<span class="number">0</span>,<span class="string">&#x27;hi&#x27;</span>,<span class="string">&#x27;John&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary1); <span class="comment">// [1,3,2,3,&quot;hi&quot;,&quot;John&quot;]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> ary2 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary2.<span class="title function_">splice</span>(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary2); <span class="comment">// [1,3]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> ary3 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary3.<span class="title function_">splice</span>(<span class="number">1</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary3); <span class="comment">// [1]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> ary4 = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">ary4.<span class="title function_">splice</span>(<span class="number">1</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary4); <span class="comment">// [1]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="刪了幾個，就回傳幾個刪掉的元素陣列回來"><a href="#刪了幾個，就回傳幾個刪掉的元素陣列回來" class="headerlink" title="刪了幾個，就回傳幾個刪掉的元素陣列回來"></a>刪了幾個，就回傳幾個刪掉的元素陣列回來</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> ary2 = ary.<span class="title function_">splice</span>(<span class="number">1</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [1]</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary2); <span class="comment">// [2,3]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="索引值也可以從後頭開始算"><a href="#索引值也可以從後頭開始算" class="headerlink" title="索引值也可以從後頭開始算"></a>索引值也可以從後頭開始算</h4><p><code>splice()</code> 的 <code>第 1 個參數</code> 可以為<strong>負數</strong>，這代表從陣列的尾端數回來。<code>-1</code> 並不是從尾端直接增加元素，而是從<strong>尾端倒數第一個的位置前面</strong>新增資料，所以原本最後一個元素會被往後擠。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> ary2 = ary.<span class="title function_">splice</span>(-<span class="number">1</span>,<span class="number">0</span>,<span class="string">&#x27;last&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(ary); <span class="comment">// [1,2,&quot;last&quot;,3]</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="不會修改原始陣列，回傳值"><a href="#不會修改原始陣列，回傳值" class="headerlink" title="不會修改原始陣列，回傳值"></a>不會修改原始陣列，回傳值</h2><h3 id="find"><a href="#find" class="headerlink" title="find()"></a>find()</h3><p>將陣列中的每筆資料帶到函式裡並回傳符合條件（true）的&#x3D;&#x3D;第一筆&#x3D;&#x3D;資料，如果沒有符合的資料會回傳 <code>undefined</code>。</p>
+<ul>
+<li>帶有 3 個參數：<ol>
+<li>第 1 個參數 item 為當下資料。（必填）</li>
+<li>第 2 個參數 index 為當下資料的索引值。（選填）</li>
+<li>第 3 個參數 array 為執行的陣列。（選填）</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">find</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item &lt; <span class="number">4</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">find</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item &gt; <span class="number">4</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="reduce"><a href="#reduce" class="headerlink" title="reduce()"></a>reduce()</h3><p>將陣列中的資料從第 1 筆開始帶到函式裡與前一筆資料進行運算並會回傳運算結果。</p>
+<ul>
+<li><p>帶有 4 個參數</p>
+<ul>
+<li>accumulator 為目前計算後的值，預設值為 initialValue（必填）</li>
+<li>currentValue 為當前所取出的陣列資料（必填）</li>
+<li>currentIndex 為當前所取出的陣列資料得索引值（選填）</li>
+<li>array 為呼叫 reduce() 的陣列（選填）</li>
+<li>initialValue 為 accumulator 初始值，若沒有填則會代入陣列第 1 個元素（選填）</li>
+</ul>
+<p>  Array.reduce(callback[accumulator, currentValue, currentIndex, array], initialValue)</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">reduce</span>(<span class="keyword">function</span>(<span class="params">accumulator, currentValue, currentIndex, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> accumulator + currentValue;</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="every"><a href="#every" class="headerlink" title="every()"></a>every()</h3><p>將陣列中的每筆資料帶到函式裡並如果每筆資料都符合條件，會回傳 <code>true</code>，如果全部或有部份沒符合的資料會回傳 <code>false</code>。</p>
+<ul>
+<li>帶有 3 個參數：<ol>
+<li>第 1 個參數 item 為當下資料。（必填）</li>
+<li>第 2 個參數 index 為當下資料的索引值。（選填）</li>
+<li>第 3 個參數 array 為執行的陣列。（選填）</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">every</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item == <span class="number">1</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// false 只有 1 筆資料符合</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">every</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item &lt; <span class="number">4</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// true 全部資料都符合</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="some"><a href="#some" class="headerlink" title="some()"></a>some()</h3><p>與 <code>every()</code> 類似，差別在於只要<strong>有 1 筆資料</strong>符合條件，就會回傳 <code>true</code>，如果全部都沒符合的資料會回傳 <code>false</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">every</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item == <span class="number">1</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// true 有至少 1 筆資料符合</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">every</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item &gt; <span class="number">4</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// false 全部資料都不符合</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h3><p>將陣列中的所有元素串接成一個字串。不代入任何參數會用預設 <code>,</code> 隔開元素。</p>
+<ul>
+<li><p>帶有 3 個參數：</p>
+<ol>
+<li>第 1 個參數 item 為當下資料。（必填）</li>
+<li>第 2 個參數 index 為當下資料的索引值。（選填）</li>
+<li>第 3 個參數 array 為執行的陣列。（選填）</li>
+</ol>
+<p>  array.join([separator])</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> str = ary.<span class="title function_">join</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(str); <span class="comment">// &#x27;1,2,3&#x27;</span></span><br><span class="line"></span><br><span class="line">str = ary.<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(str); <span class="comment">// &#x27;123&#x27;</span></span><br><span class="line"></span><br><span class="line">str = ary.<span class="title function_">join</span>(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(str); <span class="comment">// &#x27;1 2 3&#x27;</span></span><br><span class="line"></span><br><span class="line">str = ary.<span class="title function_">join</span>(<span class="string">&#x27;#&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(str); <span class="comment">// &#x27;1#2#3&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="不會修改原始陣列，回傳值並產生新陣列"><a href="#不會修改原始陣列，回傳值並產生新陣列" class="headerlink" title="不會修改原始陣列，回傳值並產生新陣列"></a>不會修改原始陣列，回傳值並產生新陣列</h2><h3 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h3><p>會建立一個新陣列，並將函式回傳的值加入新陣列裡，沒有回傳的值會代入 <code>undefined</code>，陣列長度為原本陣列的長度。</p>
+<ul>
+<li>帶有 3 個參數：<ol>
+<li>第 1 個參數 item 為當下資料。（必填）</li>
+<li>第 2 個參數 index 為當下資料的索引值。（選填）</li>
+<li>第 3 個參數 array 為執行的陣列。（選填）</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// [undefined, undefined, undefined]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;<span class="keyword">return</span> <span class="literal">false</span>&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// [false, false, false]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> dogs = [&#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;Bob&#x27;</span>,</span><br><span class="line">        <span class="attr">age</span>: <span class="number">3</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;John&#x27;</span>,</span><br><span class="line">        <span class="attr">age</span>: <span class="number">6</span></span><br><span class="line">    &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">newAry = dogs.<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(item.<span class="property">age</span> &lt; <span class="number">5</span>)&#123;<span class="keyword">return</span> item.<span class="property">name</span>&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;); <span class="comment">// [&#x27;Bob&#x27;, false]</span></span><br><span class="line"></span><br><span class="line">newAry = dogs.<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(item.<span class="property">age</span> &lt; <span class="number">7</span>)&#123;<span class="keyword">return</span> item.<span class="property">name</span>&#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;); <span class="comment">// [&#x27;Bob&#x27;, &#x27;John&#x27;]</span></span><br><span class="line"></span><br><span class="line">newAry = dogs.<span class="title function_">map</span>(<span class="keyword">function</span>(<span class="params">item</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(item.<span class="property">age</span> &lt; <span class="number">5</span>)&#123;<span class="keyword">return</span> item.<span class="property">name</span>&#125;;</span><br><span class="line">&#125;); <span class="comment">// [&#x27;Bob&#x27;, undefined]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="slice"><a href="#slice" class="headerlink" title="slice()"></a>slice()</h3><pre><code>arr.slice([begin[, end]])
+</code></pre>
+<ul>
+<li>會回傳一個新陣列，並將指定陣列區段裡的值回傳到新陣列裡。</li>
+<li>帶有 2 個參數：<ul>
+<li>參數 <code>begin</code> 為開始的索引值</li>
+<li>參數 <code>end</code> 為要結束的索引值，不代入參數時會提取到陣列最後一筆資料。要注意參數 <code>end</code> 會回傳到代入的索引值的<strong>前一筆元素</strong>，而不是所代入的索引值。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">slice</span>(<span class="number">1</span>); <span class="comment">// [2, 3, 4, 5, 6]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">slice</span>(<span class="number">2</span>,<span class="number">4</span>); <span class="comment">// [3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代入 0 或不代參數會把陣列所有資料都拷貝一份到新陣列裡。</li>
+<li>與 <code>splice()</code> 相同，可以代入負數，<code>slice(0,-1)</code> 代表從提取陣列第 1 筆資料到倒數第 2 筆資料。<code>splice(-1)</code>，則會回傳倒數第 1 個資料。負數超過原始陣列長度會回傳整個陣列資料。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">slice</span>(); <span class="comment">// [1,2,3,4,5,6]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">slice</span>(-<span class="number">1</span>); <span class="comment">// [6]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">slice</span>(<span class="number">0</span>,-<span class="number">1</span>); <span class="comment">// [1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">slice</span>(-<span class="number">6</span>); <span class="comment">// [1, 2, 3, 4, 5, 6]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h3><p>會回傳一個新陣列，並將符合條件的資料傳到新陣列裡。</p>
+<ul>
+<li>帶有 3 個參數：<ol>
+<li>第 1 個參數 item 為當下資料。</li>
+<li>第 2 個參數 index 為當下資料的索引值。</li>
+<li>第 1 個參數 array 為執行的陣列。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> newAry = ary.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item == <span class="number">1</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// [1]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item &lt;= <span class="number">2</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// [1, 2]</span></span><br><span class="line"></span><br><span class="line">newAry = ary.<span class="title function_">filter</span>(<span class="keyword">function</span>(<span class="params">item, index, array</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> item &lt; <span class="number">4</span>;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(newAry); <span class="comment">// []</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="split"><a href="#split" class="headerlink" title="split()"></a>split()</h3><pre><code>str.split([separator[, limit]])
+</code></pre>
+<p>以指定的分割字串決定字串拆分的位置，將拆分結果代入陣列並回傳此陣列。</p>
+<ul>
+<li>帶有 2 個參數：<ol>
+<li>參數 separator 為指定拆分字串。可以代入正則表達式（regex）。</li>
+<li>參數 limit 為限制陣列長度，如果代入 5，回傳的新陣列會有 5 筆或不超過 5 筆資料。</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> message = <span class="string">&#x27;Go lucky Guy&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> strAry = message.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>); <span class="comment">// 代入空字串當分隔符</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(strAry); <span class="comment">// [&#x27;G&#x27;, &#x27;o&#x27;, &#x27; &#x27;, &#x27;l&#x27;, &#x27;u&#x27;, &#x27;c&#x27;, &#x27;k&#x27;, &#x27;y&#x27;, &#x27; &#x27;, &#x27;G&#x27;, &#x27;u&#x27;, &#x27;y&#x27;]</span></span><br><span class="line"></span><br><span class="line">strAry = message.<span class="title function_">split</span>(<span class="string">&#x27;&#x27;</span>, <span class="number">5</span>); <span class="comment">// 代入空字串當分隔符</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(strAry); <span class="comment">// [&#x27;G&#x27;, &#x27;o&#x27;, &#x27; &#x27;, &#x27;l&#x27;, &#x27;u&#x27;]</span></span><br><span class="line"></span><br><span class="line">strAry = message.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>); <span class="comment">// 代入空白當分隔符</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(strAry); <span class="comment">// [&#x27;Go&#x27;, &#x27;lucky&#x27;, &#x27;Guy&#x27;]</span></span><br><span class="line"></span><br><span class="line">strAry = message.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>, <span class="number">5</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(strAry); <span class="comment">// [&#x27;Go&#x27;, &#x27;lucky&#x27;, &#x27;Guy&#x27;]</span></span><br><span class="line"></span><br><span class="line">strAry = message.<span class="title function_">split</span>(<span class="string">&#x27; &#x27;</span>, <span class="number">1</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(strAry); <span class="comment">// [&#x27;Go&#x27;]</span></span><br><span class="line"></span><br><span class="line">strAry = message.<span class="title function_">split</span>(<span class="string">&#x27;G&#x27;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(strAry); <span class="comment">// [&#x27;&#x27;, &#x27;o lucky &#x27;, &#x27;uy&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<p>如果沒有代入任何參數或是代入不再呼叫字串內的字串，split() 會將整組字串代入新陣列並回傳。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> message = <span class="string">&#x27;I am a Happy Go lucky Guy&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> strAry = message.<span class="title function_">split</span>(); <span class="comment">// [&#x27;I am a Happy Go lucky Guy&#x27;]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> message2 = <span class="string">&#x27;I am a Happy Go lucky Guy, how about you?&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> strAry = message2.<span class="title function_">split</span>(<span class="string">&#x27;,&#x27;</span>); <span class="comment">// [&#x27;I am a Happy Go lucky Guy&#x27;, &#x27; how about you?&#x27;]</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="排序（會改變原始陣列）"><a href="#排序（會改變原始陣列）" class="headerlink" title="排序（會改變原始陣列）"></a>排序（會改變原始陣列）</h2><h3 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h3><p>針對陣列的元素進行排序，裡頭包含了一個排序用的判斷函式，函式內必須包含兩個參數，分別代表陣列裡第 n 個和第 n+1 個元素，透過比較第 n 和第 n+1 個元素的大小來進行排序。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">8</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">6</span>,<span class="number">2</span>];</span><br><span class="line">ary.<span class="title function_">sort</span>(<span class="function">(<span class="params">a,b</span>) =&gt;</span> b - a); <span class="comment">// [8, 7, 6, 5, 4, 3, 2, 1]</span></span><br><span class="line">ary.<span class="title function_">sort</span>(<span class="function">(<span class="params">a,b</span>) =&gt;</span> a - b); <span class="comment">// [1, 2, 3, 4, 5, 6, 7, 8]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="reverse"><a href="#reverse" class="headerlink" title="reverse()"></a>reverse()</h3><p>將陣列排序反轉。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> ary = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">ary.<span class="title function_">reverse</span>(); <span class="comment">// [3, 2, 1]</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h6><ul>
+<li><a target="_blank" rel="noopener" href="https://www.oxxostudio.tw/articles/201908/js-array.html">JavaScript Array 陣列操作方法大全 ( 含 ES6 )</a></li>
+<li><a target="_blank" rel="noopener" href="https://wcc723.github.io/javascript/2017/06/29/es6-native-array/">JavaScript 陣列處理方法 [filter(), find(), forEach(), map(), every(), some(), reduce()]</a></li>
+<li><a target="_blank" rel="noopener" href="https://hsiangfeng.github.io/javascript/20190421/1216566123/">關於 JavaScript 陣列 20 種操作的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">splice() MDN 文件</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10225345">JS 隨意修、刪、改的陣列 Array 方法 splice()</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10224915">輕鬆淺拷貝的陣列 Array 方法 slice()</a></li>
+<li><a target="_blank" rel="noopener" href="https://chinese.freecodecamp.org/news/javascript-split-how-to-split-a-string-into-an-array-in-js/">JavaScript split() 方法——如何在 JS 中将字符串拆分为数组</a></li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/CalonBlog/tags/JavaScript/">JavaScript</a><a class="post-meta__tags" href="/CalonBlog/tags/Array/">Array</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" data-sites="facebook,twitter"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/CalonBlog/2022/03/26/Ubuntu-%E5%B0%87-ibus-%E6%8F%9B%E6%88%90-fcitx/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/b/b0/NewTux.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Ubuntu 將 ibus 換成 fcitx</div></div></a></div><div class="next-post pull-right"><a href="/CalonBlog/2022/04/22/%E5%AE%89%E8%A3%9D-vim-devicons-%E6%AA%94%E6%A1%88%E5%9C%96%E7%A4%BA/"><img class="next-cover" src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Vimlogo.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">安裝 vim-devicons 檔案圖示</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/CalonBlog/2022/04/23/ES-6-%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%94%A8%E7%9A%84%E8%AA%9E%E6%B3%95%E7%B3%96/" title="ES 6 一些好用的語法糖"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-23</div><div class="title">ES 6 一些好用的語法糖</div></div></a></div><div><a href="/CalonBlog/2022/04/22/ESM-%E6%A8%A1%E7%B5%84-ES6-Modules-or-JavaScript-Modules/" title="ESM 模組 (ES6 Modules or JavaScript Modules)"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-22</div><div class="title">ESM 模組 (ES6 Modules or JavaScript Modules)</div></div></a></div><div><a href="/CalonBlog/2022/04/22/JavaScript-%E6%8D%89%E6%91%B8%E4%B8%8D%E5%AE%9A%E7%9A%84-This/" title="JavaScript 捉摸不定的 This"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-22</div><div class="title">JavaScript 捉摸不定的 This</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#forEach"><span class="toc-text">forEach()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%A2%9E%E3%80%81%E5%88%AA%E9%99%A4"><span class="toc-text">新增、刪除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#push"><span class="toc-text">push()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pop"><span class="toc-text">pop()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shift-%E3%80%81unshift"><span class="toc-text">shift()、unshift()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#shift"><span class="toc-text">shift()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#unshift"><span class="toc-text">unshift()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#splice"><span class="toc-text">splice()</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%AA%E4%BA%86%E5%B9%BE%E5%80%8B%EF%BC%8C%E5%B0%B1%E5%9B%9E%E5%82%B3%E5%B9%BE%E5%80%8B%E5%88%AA%E6%8E%89%E7%9A%84%E5%85%83%E7%B4%A0%E9%99%A3%E5%88%97%E5%9B%9E%E4%BE%86"><span class="toc-text">刪了幾個，就回傳幾個刪掉的元素陣列回來</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%80%BC%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%BE%9E%E5%BE%8C%E9%A0%AD%E9%96%8B%E5%A7%8B%E7%AE%97"><span class="toc-text">索引值也可以從後頭開始算</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E6%9C%83%E4%BF%AE%E6%94%B9%E5%8E%9F%E5%A7%8B%E9%99%A3%E5%88%97%EF%BC%8C%E5%9B%9E%E5%82%B3%E5%80%BC"><span class="toc-text">不會修改原始陣列，回傳值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#find"><span class="toc-text">find()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reduce"><span class="toc-text">reduce()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#every"><span class="toc-text">every()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#some"><span class="toc-text">some()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#join"><span class="toc-text">join()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E6%9C%83%E4%BF%AE%E6%94%B9%E5%8E%9F%E5%A7%8B%E9%99%A3%E5%88%97%EF%BC%8C%E5%9B%9E%E5%82%B3%E5%80%BC%E4%B8%A6%E7%94%A2%E7%94%9F%E6%96%B0%E9%99%A3%E5%88%97"><span class="toc-text">不會修改原始陣列，回傳值並產生新陣列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#map"><span class="toc-text">map()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slice"><span class="toc-text">slice()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#filter"><span class="toc-text">filter()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#split"><span class="toc-text">split()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%EF%BC%88%E6%9C%83%E6%94%B9%E8%AE%8A%E5%8E%9F%E5%A7%8B%E9%99%A3%E5%88%97%EF%BC%89"><span class="toc-text">排序（會改變原始陣列）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#sort"><span class="toc-text">sort()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#reverse"><span class="toc-text">reverse()</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99"><span class="toc-text">參考資料</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background: #000000"><div id="footer-wrap"><div class="copyright">&copy;2022 By Calon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/CalonBlog/js/utils.js"></script><script src="/CalonBlog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/CalonBlog/js/search/algolia.js"></script><div class="js-pjax"><script>function loadUtterances () {
+  let ele = document.createElement('script')
+  ele.setAttribute('id', 'utterances_comment')
+  ele.setAttribute('src', 'https://utteranc.es/client.js')
+  ele.setAttribute('repo', 'calon719/CalonBlog')
+  ele.setAttribute('issue-term', 'pathname')
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+  ele.setAttribute('theme', nowTheme)
+  ele.setAttribute('crossorigin', 'anonymous')
+  ele.setAttribute('async', 'true')
+  document.getElementById('utterances-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function utterancesTheme () {
+  const iframe = document.querySelector('.utterances-frame')
+  if (iframe) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    const message = {
+      type: 'set-theme',
+      theme: theme
+    };
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+}
+
+if ('Utterances' === 'Utterances' || !true) {
+  if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+  else loadUtterances()
+} else {
+  function loadOtherComment () {
+    loadUtterances()
+  }
+}</script></div></div></body></html>
