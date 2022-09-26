@@ -150,18 +150,26 @@
 <p>到這裡我們將暫存區的檔案存放到儲存庫，也就是說我們完成了一個備份，也建立了我們第一個「版本」。</p>
 <p><strong>※注意</strong>：Commit 只會將有加入暫存區的檔案進行處理，也就是有使用 <code>git add</code> 的檔案在使用 <code>git commit</code> 就會被存放到儲存區，沒有使用 <code>git add</code> 加入到暫存區的檔案則不會做任何處理。</p>
 <p>如果在上一篇設定基本設定沒有跟著設定使用者名稱、Email 的話，這時會跳出訊息：Please tell me who you are.，這時只要設定使用者名稱、Email 就可以解決。（注意：兩個資料都需要設定，只設定其中一個還是會報錯。）</p>
+<br>
+
 <h2 id="省略-git-add-步驟"><a href="#省略-git-add-步驟" class="headerlink" title="省略 git add 步驟"></a>省略 <code>git add</code> 步驟</h2><p>剛才不是說沒有加入暫存區的檔案不會被 Commit 存放到儲存庫嗎？</p>
 <p>沒錯，但是指還沒被 Git 所追蹤的檔案的話，如果今天如果是將檔案已經加入過儲存過得檔案 Commit 上去的話，可以加上參數 <code>-a</code>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git commit -a -m <span class="string">&#x27;修正 helloWorld.txt&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>但是如果是尚未被追蹤的檔案，也就是 Untracked 的狀態的檔案還是要先經過完整的流程。</p>
+<br>
+
 <h2 id="為什麼-Git-不直接使用-Commit-指令將檔案直接存進儲存庫？"><a href="#為什麼-Git-不直接使用-Commit-指令將檔案直接存進儲存庫？" class="headerlink" title="為什麼 Git 不直接使用 Commit 指令將檔案直接存進儲存庫？"></a>為什麼 Git 不直接使用 Commit 指令將檔案直接存進儲存庫？</h2><p>雖然要先 add 再 commit 很麻煩，但這有助於增加在閱讀 commit 的易讀性，如果今天一個檔案就一個 commit 的話，其他人或是自己要回去找多個修改紀錄就需要一個個去看，而如果今天先將所要有變動的檔案集中在一個地方再一起存放到儲存庫，這樣在往後閱讀有整理的修改紀錄時會方便許多。</p>
 <p>可以把 <code>git add</code> 再 <code>git commit</code> 的這個動作想像成是在逛國外購物網站的時候，為了節省國際運費，會先將來自不同賣家的商品運送到一個集中倉庫，再一起使用空運或海運寄出。</p>
+<br>
+
 <h3 id="為什麼我輸入-git-commit-後跳出一個視窗並且跳不回去終端機畫面？"><a href="#為什麼我輸入-git-commit-後跳出一個視窗並且跳不回去終端機畫面？" class="headerlink" title="為什麼我輸入 git commit 後跳出一個視窗並且跳不回去終端機畫面？"></a>為什麼我輸入 git commit 後跳出一個視窗並且跳不回去終端機畫面？</h3><p>在使用 Commit 指令時如果址輸入 <code>git commit</code> 就會會跳出預設的編輯器 Vim（或者是 vi），Vim 因為操作上跟一般編輯器有很大的不同，對於沒接觸過的人不是很有善，當遇上這種狀況的時候可以<del>直接關掉終端機再開新的</del>先輸入 : 再輸入 q 就可以離開 Vim 回到終端機了。</p>
 <p>順帶一提，學習 Git 系列文章都是用 Vim 寫的～</p>
 <blockquote>
 <p>說到 Vim 就不得不提 Vim 的經典問題：怎麼離開 Vim （<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/11828270/how-do-i-exit-the-vim-editor">How do I exit the Vim editor?</a>）<br>至經為止已經有兩百六十萬左右的瀏覽數</p>
 </blockquote>
+<br>
+
 <h2 id="只-commit-檔案裡面一部分"><a href="#只-commit-檔案裡面一部分" class="headerlink" title="只 commit 檔案裡面一部分"></a>只 commit 檔案裡面一部分</h2><p>假設今天我們有一個 test.txt，裡面有以下文字內容：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">It&#x27;s for practicing.</span><br><span class="line">test, 1, 2, 3.</span><br></pre></td></tr></table></figure>
 

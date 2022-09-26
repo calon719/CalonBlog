@@ -159,6 +159,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 忽略所有 .yml 檔案</span></span><br><span class="line">*.yml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略所有包含 password 開頭的檔案</span></span><br><span class="line">password*</span><br></pre></td></tr></table></figure>
 
 <p>而如果哪天想要這些檔案被 Git 備份時只要把它們從 .gitignore 裡面移除就行了。</p>
+<br>
+
 <h2 id="為什麼我設定了-gitignore-後還是沒效果？"><a href="#為什麼我設定了-gitignore-後還是沒效果？" class="headerlink" title="為什麼我設定了 .gitignore 後還是沒效果？"></a>為什麼我設定了 .gitignore 後還是沒效果？</h2><p>如果檔案在設定 .gitignore 前就對它有使用 <code>git add</code>，即使加入 .gitignore 也還是會出現以下訊息：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">&quot;git restore --staged &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">      new file: configs/password.txt</span><br></pre></td></tr></table></figure>
 

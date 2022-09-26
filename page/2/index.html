@@ -50,7 +50,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2022-09-26 10:35:27'
+  postUpdate: '2022-09-26 10:53:34'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -151,13 +151,17 @@ $ g ...</div></div></div><div class="recent-post-item"><div class="post_cover le
 $ git branch* master
 
 分支的操作都會使用到 git branch，而 git branch 在後面不加任何參數時會印出目前工作目錄有哪些分支，Git 預設會幫我們設定一個 master 的分支，master 前面的 * 則表示現在在 master 分支上。
+
+
 新增分支新增分支的方式很簡單，一樣使用 git branch，這次在後面加上想要開出去的分支名稱：
 $ git branch test
 
 這樣一個名為 test 的分支就開好了：
 $ git branch* master  test
 
-變更分支名稱我們剛才新增了一個 test 分支，但後來覺得不是很喜歡想要改掉，這時我們可以加上參數 -m，後面 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/CalonBlog/2022/05/16/%E5%AD%B8%E7%BF%92-Git-6-%E4%BF%AE%E6%94%B9-commit-%E7%B4%80%E9%8C%84-part-3%EF%BC%9ARebase/" title="學習 Git (6) - 修改 commit 紀錄 part 3：Rebase"><img class="post_bg" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="this.onerror=null;this.src='/CalonBlog/img/404.jpg'" alt="學習 Git (6) - 修改 commit 紀錄 part 3：Rebase"></a></div><div class="recent-post-info"><a class="article-title" href="/CalonBlog/2022/05/16/%E5%AD%B8%E7%BF%92-Git-6-%E4%BF%AE%E6%94%B9-commit-%E7%B4%80%E9%8C%84-part-3%EF%BC%9ARebase/" title="學習 Git (6) - 修改 commit 紀錄 part 3：Rebase">學習 Git (6) - 修改 commit 紀錄 part 3：Rebase</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2022-05-16T10:41:37.000Z" title="發表於 2022-05-16 18:41:37">2022-05-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/CalonBlog/categories/Git/">Git</a></span></div><div class="content">除了前面兩種方式之外，第三種方式是使用 git rebase，git rebase 和前面兩種方式不同的地方在於可以更靈活地去根據需求來修改 commit。首先我們來看一下 commit：
+
+
+變更分支名稱我們剛才新增了一個 test 分支，但後來覺得不是很喜歡想要改掉，這時我們可以加上參數 - ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/CalonBlog/2022/05/16/%E5%AD%B8%E7%BF%92-Git-6-%E4%BF%AE%E6%94%B9-commit-%E7%B4%80%E9%8C%84-part-3%EF%BC%9ARebase/" title="學習 Git (6) - 修改 commit 紀錄 part 3：Rebase"><img class="post_bg" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="this.onerror=null;this.src='/CalonBlog/img/404.jpg'" alt="學習 Git (6) - 修改 commit 紀錄 part 3：Rebase"></a></div><div class="recent-post-info"><a class="article-title" href="/CalonBlog/2022/05/16/%E5%AD%B8%E7%BF%92-Git-6-%E4%BF%AE%E6%94%B9-commit-%E7%B4%80%E9%8C%84-part-3%EF%BC%9ARebase/" title="學習 Git (6) - 修改 commit 紀錄 part 3：Rebase">學習 Git (6) - 修改 commit 紀錄 part 3：Rebase</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2022-05-16T10:41:37.000Z" title="發表於 2022-05-16 18:41:37">2022-05-16</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/CalonBlog/categories/Git/">Git</a></span></div><div class="content">除了前面兩種方式之外，第三種方式是使用 git rebase，git rebase 和前面兩種方式不同的地方在於可以更靈活地去根據需求來修改 commit。首先我們來看一下 commit：
 $ git log --onelineffc541b (HEAD -&gt; master) 新增 work 1c8ba232 新增 works.txtaa29fdd 新增 rule 2feff33e 新增 rule 11551d95 init
 
 接下來我們使用 git rebase：
@@ -182,11 +186,13 @@ $ git log ---onelinedfaa0f3   ...</div></div></div><div class="recent-post-item"
 使用 git reset 前往指定 commit 後重新 commit
 使用 git rebase 拆掉原本的 commit 後再做 commit 整理
 
+
+
 使用參數 –amend如果只是要修改最後一筆紀錄我們可以使用 git commit 並加上 --amend 參數，先來看一下 commit 紀錄：
 $ git log --oneline1b8bd74 (HEAD -&gt; master) docs: OMGdfaa0f3 初始版本
 
 最上面的是最新的紀錄，commit 寫著 docs: OMG 讓人看了無法理解到底做了什麼，這時我們要修改這一個最新（最後）commit 紀錄：
-$ git commit --amend -m &#x27;docs: 新增道別規矩&#x27;[master 025e6f4] docs: 新增道別規矩 Date: Sat May 7 21:09:02 2022 +0800 1 file changed, 1 insertion( ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/CalonBlog/2022/05/14/%E5%AD%B8%E7%BF%92-Git-%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%88%AA%E6%8E%89%E7%9A%84%E6%AA%94%E6%A1%88%E6%95%91%E7%9A%84%E5%9B%9E%E4%BE%86%E5%97%8E%EF%BC%9F/" title="學習 Git - 不小心刪掉的檔案救的回來嗎？"><img class="post_bg" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="this.onerror=null;this.src='/CalonBlog/img/404.jpg'" alt="學習 Git - 不小心刪掉的檔案救的回來嗎？"></a></div><div class="recent-post-info"><a class="article-title" href="/CalonBlog/2022/05/14/%E5%AD%B8%E7%BF%92-Git-%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%88%AA%E6%8E%89%E7%9A%84%E6%AA%94%E6%A1%88%E6%95%91%E7%9A%84%E5%9B%9E%E4%BE%86%E5%97%8E%EF%BC%9F/" title="學習 Git - 不小心刪掉的檔案救的回來嗎？">學習 Git - 不小心刪掉的檔案救的回來嗎？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2022-05-14T08:50:45.000Z" title="發表於 2022-05-14 16:50:45">2022-05-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/CalonBlog/categories/Git/">Git</a></span></div><div class="content">首先我們先來看一下工作目錄裡面有哪些檔案：
+$ git commit --amend -m &#x27;docs: 新增道別規矩&#x27;[master 025e6f4] docs: 新增道別規矩 Date: Sat May 7 21:09:02 2022 +0800 1 file changed, 1 insertio ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/CalonBlog/2022/05/14/%E5%AD%B8%E7%BF%92-Git-%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%88%AA%E6%8E%89%E7%9A%84%E6%AA%94%E6%A1%88%E6%95%91%E7%9A%84%E5%9B%9E%E4%BE%86%E5%97%8E%EF%BC%9F/" title="學習 Git - 不小心刪掉的檔案救的回來嗎？"><img class="post_bg" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Git-logo.svg" onerror="this.onerror=null;this.src='/CalonBlog/img/404.jpg'" alt="學習 Git - 不小心刪掉的檔案救的回來嗎？"></a></div><div class="recent-post-info"><a class="article-title" href="/CalonBlog/2022/05/14/%E5%AD%B8%E7%BF%92-Git-%E4%B8%8D%E5%B0%8F%E5%BF%83%E5%88%AA%E6%8E%89%E7%9A%84%E6%AA%94%E6%A1%88%E6%95%91%E7%9A%84%E5%9B%9E%E4%BE%86%E5%97%8E%EF%BC%9F/" title="學習 Git - 不小心刪掉的檔案救的回來嗎？">學習 Git - 不小心刪掉的檔案救的回來嗎？</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">發表於</span><time datetime="2022-05-14T08:50:45.000Z" title="發表於 2022-05-14 16:50:45">2022-05-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/CalonBlog/categories/Git/">Git</a></span></div><div class="content">首先我們先來看一下工作目錄裡面有哪些檔案：
 $ lsconfigs  helloWorld.txt  new.txt
 
 接下來使用 rm 來刪除所有 txt 檔：

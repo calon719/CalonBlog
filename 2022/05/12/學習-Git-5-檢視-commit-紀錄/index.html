@@ -157,6 +157,8 @@
 <li>commit 的內容</li>
 </ol>
 <p>commit 的辨識碼，以最新的 commit 來說就是 e6bd8bf12d133fb321d25165ae09136c142320e6 這一串，是使用 SHA-1 演算法（Secure Hash Algorithm 1）根據物件種類、時間、內容等等計算出來的，重複機率超級無敵低。</p>
+<br>
+
 <h2 id="git-log-參數"><a href="#git-log-參數" class="headerlink" title="git log 參數"></a>git log 參數</h2><p><code>git log</code> 有著豐富的參數可以根據需求來顯示 commit 的內容，例如我們只是想要簡略地知道每個 commit 做了哪些事，不需要查看其他內容，這時我們可以使用 <code>--oneline</code> 參數：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">e6bd8bf (HEAD -&gt; master) 新增 new.txt</span><br><span class="line">140cd31 新增 helloWorld.txt</span><br></pre></td></tr></table></figure>
 

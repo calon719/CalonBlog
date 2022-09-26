@@ -168,6 +168,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">configs  helloWorld.txt  new.txt</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">nothing to commit, working tree clean</span><br></pre></td></tr></table></figure>
 
 <p>configs 和 new.txt 都有成功救回來了。</p>
+<br>
+
 <h2 id="Git-是怎麼救回檔案的？"><a href="#Git-是怎麼救回檔案的？" class="headerlink" title="Git 是怎麼救回檔案的？"></a>Git 是怎麼救回檔案的？</h2><p><code>git checkout</code> 除了在後面會介紹到分支時會用來切換分支之外，在這裡當我們使用 <code>git checkout</code> 並且後面加上檔名或是路徑的時候，Git 會將檔案從 .git 拉一份到工作目錄。</p>
 <p>準確來講是將暫存區的檔案覆蓋到當前工作目錄，這也是為什麼使用 <code>git checkout</code> 後會出現「從索引區更新了 x 個路徑」，因為暫存區是一個簡單的索引文件，指的是 .git&#x2F;index。<br>所以如果在編輯檔案後不小心刪掉並用 <code>git checkout</code> 救回來，剛剛編輯過的檔案沒有加入暫存區或是提交 commit，雖然檔案救回來了但是剛編輯的內容是就不回來的。</p>
 <hr>

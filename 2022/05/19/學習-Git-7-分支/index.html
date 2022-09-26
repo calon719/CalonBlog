@@ -148,11 +148,15 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* master</span><br></pre></td></tr></table></figure>
 
 <p>分支的操作都會使用到 <code>git branch</code>，而 <code>git branch</code> 在後面不加任何參數時會印出目前工作目錄有哪些分支，Git 預設會幫我們設定一個 master 的分支，master 前面的 * 則表示現在在 master 分支上。</p>
+<br>
+
 <h3 id="新增分支"><a href="#新增分支" class="headerlink" title="新增分支"></a>新增分支</h3><p>新增分支的方式很簡單，一樣使用 <code>git branch</code>，這次在後面加上想要開出去的分支名稱：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
 
 <p>這樣一個名為 test 的分支就開好了：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* master</span><br><span class="line">  <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+
+<br>
 
 <h3 id="變更分支名稱"><a href="#變更分支名稱" class="headerlink" title="變更分支名稱"></a>變更分支名稱</h3><p>我們剛才新增了一個 test 分支，但後來覺得不是很喜歡想要改掉，這時我們可以加上參數 <code>-m</code>，後面先帶上要修改的分支名稱，最後在帶上想變成的分支名稱：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># git branch -m 想修改的分支 修改後的分支名稱</span></span><br><span class="line">$ git branch -m <span class="built_in">test</span> develop</span><br></pre></td></tr></table></figure>
@@ -162,6 +166,8 @@
 
 <p>有成功改掉了，預設的 master 也可以改成想要的名稱：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -m master main</span><br><span class="line">$ git branch</span><br><span class="line">  develop</span><br><span class="line">* main</span><br></pre></td></tr></table></figure>
+
+<br>
 
 <h3 id="切換分支"><a href="#切換分支" class="headerlink" title="切換分支"></a>切換分支</h3><p>接下來我們要切換到 develop 去做開發，首先先確認現在在哪個分支上：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">  develop</span><br><span class="line">* main</span><br></pre></td></tr></table></figure>
@@ -173,11 +179,15 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch</span><br><span class="line">* develop</span><br><span class="line">  main</span><br></pre></td></tr></table></figure>
 
 <p>星號 * 跑到 develop 前面了，所以現在我們已經將分支切換到 develop。</p>
+<br>
+
 <h4 id="切換到不存在的分支"><a href="#切換到不存在的分支" class="headerlink" title="切換到不存在的分支"></a>切換到不存在的分支</h4><p>如果我們使用 <code>git checkout</code> 切換到不存在的分支時會出現下面錯誤：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout nothing</span><br><span class="line">error:  pathspec <span class="string">&#x27;nothing&#x27;</span> did not match any file(s) known to git.</span><br></pre></td></tr></table></figure>
 
 <p>但每次都要先用 <code>git branch</code> 新增分支後再用 <code>git checkout</code> 切換過去好麻煩。<br>沒關係，在使用 <code>git checkout</code> 時可以加上 <code>-b</code> 參數來解決：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b nothing</span><br><span class="line">Switched to a new branch <span class="string">&#x27;nothing&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<br>
 
 <h4 id="切換分支的時候好像少了一些檔案？"><a href="#切換分支的時候好像少了一些檔案？" class="headerlink" title="切換分支的時候好像少了一些檔案？"></a>切換分支的時候好像少了一些檔案？</h4><p>在剛才新增的 develop 新增 work1.txt 和 work2.txt，接下來我們用 <code>ls</code> 指令來看一下在 develop 分支的工作目錄下有哪些檔案：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">ls</span> al</span><br><span class="line">total 16</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 18 20:00 .</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 16 13:49 ..</span><br><span class="line">drwxrwxr-x 8 calon calon 4096  5月 18 20:00 .git</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 17:56 rule2.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 18:24 rule3.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    1  5月 16 17:56 rules.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 18 20:02 work1.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 18 20:02 work2.txt</span><br></pre></td></tr></table></figure>
@@ -186,6 +196,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout main</span><br><span class="line">Switched to branch <span class="string">&#x27;main&#x27;</span></span><br><span class="line">$ <span class="built_in">ls</span> -al</span><br><span class="line">total 16</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 18 20:00 .</span><br><span class="line">drwxrwxr-x 3 calon calon 4096  5月 16 13:49 ..</span><br><span class="line">drwxrwxr-x 8 calon calon 4096  5月 18 20:00 .git</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 17:56 rule2.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    0  5月 16 18:24 rule3.txt</span><br><span class="line">-rw-rw-r-- 1 calon calon    1  5月 16 17:56 rules.txt</span><br></pre></td></tr></table></figure>
 
 <p>剛才在 develop 分支底下新增的 work1.txt 和 work2.txt 都不見了？<br>不用擔心，檔案沒有消失，只要切回 develop 那些檔案就會出現了。</p>
+<br>
+
 <h3 id="合併分支"><a href="#合併分支" class="headerlink" title="合併分支"></a>合併分支</h3><p>我們先來看一下 main 裡面的 commit：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ccf65d1 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
@@ -210,6 +222,8 @@
 <p>完成後用 <code>git log</code> 來確認一下：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">4444f10 (HEAD -&gt; main, develop) 新增 work2.txt</span><br><span class="line">6f5eefa 新增 work1.txt</span><br><span class="line">ccf65d1 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
+<br>
+
 <h4 id="快轉模式（Fast-forward）"><a href="#快轉模式（Fast-forward）" class="headerlink" title="快轉模式（Fast-forward）"></a>快轉模式（Fast-forward）</h4><p>我們在上面將 develop 合併回 main 的時候有出現 Fast-forward 這個訊息，也就是快轉模式，因為 develop 是從 main 分出去的分支，而在 develop 要合併回 main 的時候，develop 除了多了 2 個新 commit 之外 main 有的 develop 都有，所以合併時並不會產生新的 commit。<br>我們可以使用 <code>git log</code> 並加上 <code>--graph</code> 參數來使用 ASCII 圖形檢視 commit 紀錄，首先是合併前的 main 分支：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --graph</span><br><span class="line">* ccf65d1 (HEAD -&gt; main) 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
 
@@ -228,6 +242,8 @@
 <p>有發現訊息不一樣了嗎？這次沒有出現 Fast-forward 了，接著使用 <code>git log --graph</code> 來檢視 commit 紀錄：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">*   485e562 (HEAD -&gt; main) Merge branch <span class="string">&#x27;develop&#x27;</span> into main</span><br><span class="line">|\</span><br><span class="line">| * 4444f10 (develop) 新增 work2.txt</span><br><span class="line">| * 6f5eefa 新增 work1.txt</span><br><span class="line">* | 595b530 新增 test.txt</span><br><span class="line">|/</span><br><span class="line">* ccf65d1 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
 <p>有發現有一個像耳朵的圖案了嗎？每個 * 代表一個 commit，&#x2F; 表示分出去的分支所新增的 commit，而 \ 則是合併回來的意思，在這邊合併時產生了新的 commit 所以 \ 會指向 485e562。</p>
+<br>
+
 <h4 id="不使用快轉模式合併"><a href="#不使用快轉模式合併" class="headerlink" title="不使用快轉模式合併"></a>不使用快轉模式合併</h4><p>在上面有介紹過，當今天要合併回來的分支上 Git 發現它有的你也有，只是多出幾個 commit 時就會用快轉模式，而這時使用 <code>git log --graph</code> 來檢視 commit 紀錄就不會有分出去的小耳朵，如果希望每次合併回來都會有小耳朵的圖案，我們可以加上 <code>--no-ff</code> 讓 Git 不使用快轉模式進行合併：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git merge develop --no-ff</span><br></pre></td></tr></table></figure>
 
@@ -236,6 +252,8 @@
 
 <p>之後一樣用 <code>git log --oneline --graph</code> 來檢視一下紀錄：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline --graph</span><br><span class="line">*   acfe38f (HEAD -&gt; main) Merge branch <span class="string">&#x27;develop&#x27;</span> into main</span><br><span class="line">|\</span><br><span class="line">| * 4444f10 (develop) 新增 work2.txt</span><br><span class="line">| * 6f5eefa 新增 work1.txt</span><br><span class="line">|/</span><br><span class="line">* ccf65d1 新增 rule 3</span><br><span class="line">* c8699fa 新增 rule2.txt</span><br><span class="line">* 7cf2baa 新增 rules.txt 內容</span><br><span class="line">* deb6d18 init</span><br></pre></td></tr></table></figure>
+
+<br>
 
 <h3 id="刪除分支"><a href="#刪除分支" class="headerlink" title="刪除分支"></a>刪除分支</h3><p>我們已經成功地將 develop 合併回 main 上了，雖然 develop 分支留著也沒關係，但如果不想要我們也可以把它刪掉，記得在刪除之前要切到不是要刪除的分支上面在進行刪除，否則會出錯，而要刪除分支一樣是使用 <code>git branch</code> 指令，這次我們要加上 <code>-d</code> 這個參數：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ git branch -d develop</span><br><span class="line">Delete branch develop (was 4444f10)</span><br></pre></td></tr></table></figure>
@@ -246,6 +264,8 @@
 <p>這是在提示我們 develop 的內容還沒有合併，如果你真的不想要這個分支的話上面訊息也有提到怎麼刪除，只要把 d 改成大寫 D 就可以了：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -D develop</span><br><span class="line">Delete branch develop (was 4444f10)</span><br></pre></td></tr></table></figure>
 
+<br>
+
 <h4 id="能救回還沒合併卻被刪掉的分支嗎？"><a href="#能救回還沒合併卻被刪掉的分支嗎？" class="headerlink" title="能救回還沒合併卻被刪掉的分支嗎？"></a>能救回還沒合併卻被刪掉的分支嗎？</h4><p>當然可以，還是的剛剛在刪除分支的時候的訊息嗎？</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -D develop</span><br><span class="line">Delete branch develop (was 4444f10)</span><br></pre></td></tr></table></figure>
 
@@ -255,8 +275,12 @@
 <p>接下來我們將分支切到 new_develop 上，並檢視 new_develop 的 commit：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout new_develop</span><br><span class="line">Switched to branch <span class="string">&#x27;new_develop&#x27;</span></span><br><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">4444f10 (HEAD -&gt; new_develop) 新增 work2.txt</span><br><span class="line">6f5eefa 新增 work1.txt</span><br><span class="line">ccf65d1 (main) 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
+<br>
+
 <h2 id="當工作到一半需要切換到另一個分支時"><a href="#當工作到一半需要切換到另一個分支時" class="headerlink" title="當工作到一半需要切換到另一個分支時"></a>當工作到一半需要切換到另一個分支時</h2><p>有時候工作到一半時，會有緊急的突發狀況需要我們去處理，像是要修一些 bug 等，這時我們就需要切換分支去處理，為了避免將現有的工作內容不小心提交 commit 在其他分支，我們可以先將手邊的工作提交 commit 上去，等到處理完其他分支之後在切回原本的分支並使用 <code>git reset</code> 將做到一半的工作的 commit 給拆掉繼續接著做下去。</p>
 <p>而除了上述方法，我們在這邊介紹新的指令 <code>git stash</code></p>
+<br>
+
 <h3 id="Stash"><a href="#Stash" class="headerlink" title="Stash"></a>Stash</h3><p>首先我們先來看一下目前 git 的狀態：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch main</span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">    modified:   test.txt</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">&quot;git add&quot;</span> and/or <span class="string">&quot;git commit -a&quot;</span>)</span><br></pre></td></tr></table></figure>
 

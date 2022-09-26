@@ -163,6 +163,8 @@
 <li>x：刪除文字，普通模式下會刪除光標所在的文字，可視模式會刪除所選取的文字</li>
 <li>:wq：在普通模式下輸入，會儲存並離開編輯器</li>
 </ul>
+<br>
+
 <h2 id="修改歷史紀錄"><a href="#修改歷史紀錄" class="headerlink" title="修改歷史紀錄"></a>修改歷史紀錄</h2><p>在這邊我想要對 <code>c8ba232 新增 works.txt</code> 和 <code>pick ffc541b 新增 work 1</code> 這兩個 commit 的訊息進行修改，所以要將這兩行前面的 pick 改成 reword 或是 r：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pick feff33e 新增 rule 1</span><br><span class="line">pick aa29fdd 新增 rule 2</span><br><span class="line">reword c8ba232 新增 works.txt</span><br><span class="line">reword ffc541b 新增 work 1</span><br></pre></td></tr></table></figure>
 
@@ -175,11 +177,15 @@
 <p>這裡的 work 也改成 job，好了之後儲存離開，Git 會開始執行剩下的工作：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[detached HEAD a68373d] 新增 jobs.txt</span><br><span class="line"> Date: Mon May 16 13:56:42 2022 +0800</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> create mode 100644 works.txt</span><br><span class="line">[detached HEAD 8792769] 新增 job 1</span><br><span class="line"> Date: Mon May 16 13:57:13 2022 +0800</span><br><span class="line"> 1 file changed, 1 insertion(+)</span><br><span class="line">Successfully rebased and updated refs/heads/master.</span><br></pre></td></tr></table></figure>
 
+<br>
+
 <h3 id="有注意到-commit-的-SHA-1-值不一樣了嗎？"><a href="#有注意到-commit-的-SHA-1-值不一樣了嗎？" class="headerlink" title="有注意到 commit 的 SHA-1 值不一樣了嗎？"></a>有注意到 commit 的 SHA-1 值不一樣了嗎？</h3><p>使用 <code>git rebase</code> 修改完上面的 commit 後，現在使用 <code>git log --oneline</code> 來看一下有沒有修改成功：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">8792769 (HEAD -&gt; master) 新增 job 1</span><br><span class="line">a68373d 新增 jobs.txt</span><br><span class="line">aa29fdd 新增 rule 2</span><br><span class="line">feff33e 新增 rule 1</span><br><span class="line">1551d95 init</span><br></pre></td></tr></table></figure>
 
 <p>有發現剛才最上面兩個 commit 的 SHA-1 值不一樣了嗎？還記得在<a href="/CalonBlog/2022/05/12/%E5%AD%B8%E7%BF%92-Git-5-%E6%AA%A2%E8%A6%96-commit-%E7%B4%80%E9%8C%84/">學習 Git (5) - 檢視 commit 紀錄</a>有提到 Git 產生物件的時候會根據時間、內容等來計算 SHA-1 值，而我們剛才修改了 commit 的訊息，並且時間也不一樣，所以計算出來的 SHA-1 值也會跟原本的不同。</p>
 <p>而在之前介紹的 <code>git commit --amend -m</code> 與 <code>git reset</code> 也是一樣修改之後的 commit 的 SHA-1 都會跟原本的不同。</p>
+<br>
+
 <h3 id="想取消剛剛的-Rebase"><a href="#想取消剛剛的-Rebase" class="headerlink" title="想取消剛剛的 Rebase"></a>想取消剛剛的 Rebase</h3><p>如果在執行完 <code>git rebase</code> 後又不想要剛才的修改的話，我們可以使用 <code>git reset</code> 回到 ORIG_HEAD：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git reset ORIG_HEAD --hard</span><br></pre></td></tr></table></figure>
 
@@ -187,6 +193,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cat</span> .git/ORIG_HEAD</span><br><span class="line">feff33e13511c41fbb8681f56e92945e380bcdc8</span><br></pre></td></tr></table></figure>
 
 <p>對應前面的 commit 紀錄會是指 <code>feff33e 新增 rule 1</code>，也就是使用 <code>git reset ORIG_HEAD --hard</code> 時會回到 feff33e 這個 commit 的狀態。<br>而使用 <code>git reset ORIG_HEAD --hard</code> 對 Git 來說也是一個危險操作，所以如果恢復到執行 <code>git reset ORIG_HEAD --hard</code> 之前的狀態時只要再次執行一樣的指令即可。</p>
+<br>
+
 <h2 id="合併-Commit"><a href="#合併-Commit" class="headerlink" title="合併 Commit"></a>合併 Commit</h2><p>這次我想要將關於 rule 的 commit 都合併在一起，一樣先使用 <code>git rebase</code>：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git rebase -i 1551d95</span><br></pre></td></tr></table></figure>
 
@@ -216,6 +224,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[detached HEAD 28ce6b7] 新增 rules 和 <span class="built_in">jobs</span></span><br><span class="line"> Date: Mon May 16 13:54:39 2022 +0800</span><br><span class="line"> 2 files changed, 3 insertions(+)</span><br><span class="line"> create mode 100644 works.txt</span><br><span class="line">Successfully rebased and updated refs/heads/master.</span><br><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">28ce6b7 (HEAD -&gt; master) 新增 rules 和 <span class="built_in">jobs</span></span><br><span class="line">1551d95 init</span><br></pre></td></tr></table></figure>
 
 <p>發現剛才 4 個都合併一起並產生 1 個 28ce6b7 的新 commit。</p>
+<br>
+
 <h2 id="拆解之前的-commit"><a href="#拆解之前的-commit" class="headerlink" title="拆解之前的 commit"></a>拆解之前的 commit</h2><p>我們先來看一下 commit：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">0a4944c (HEAD -&gt; master) 新增 job 1</span><br><span class="line">f609649 新增 jobs.txt</span><br><span class="line">3f0d4b9 新增 rules</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
@@ -253,6 +263,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">ce85586 (HEAD -&gt; master) 新增 job 1</span><br><span class="line">65695a6 新增 jobs.txt</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
 <p>發現 3f0d4b9 不見了，並新增了剛剛提交的 7cf2baa 和 c8699fa 這樣就成功將「新增 rules」這個 commit 拆成 2 個 commit 囉。</p>
+<br>
+
 <h2 id="想刪除某個-commit-或是調整-commit-位置"><a href="#想刪除某個-commit-或是調整-commit-位置" class="headerlink" title="想刪除某個 commit 或是調整 commit 位置"></a>想刪除某個 commit 或是調整 commit 位置</h2><p>最後要來介紹怎麼刪除 commit 或是調整 commit 位置，我們沿用上面拆解 commit 範例：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">ce85586 (HEAD -&gt; master) 新增 job 1</span><br><span class="line">65695a6 新增 jobs.txt</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
@@ -275,6 +287,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --oneline</span><br><span class="line">7f34f07 (HEAD -&gt; master) 新增 job 1</span><br><span class="line">cde5774 新增 jobs.txt</span><br><span class="line">ccf65d1 新增 rule 3</span><br><span class="line">c8699fa 新增 rule2.txt</span><br><span class="line">7cf2baa 新增 rules.txt 內容</span><br><span class="line">deb6d18 init</span><br></pre></td></tr></table></figure>
 
 <p>ccf65d1 有移到 c8699fa 後面了。</p>
+<br>
+
 <h3 id="刪除指定-commit"><a href="#刪除指定-commit" class="headerlink" title="刪除指定 commit"></a>刪除指定 commit</h3><p>使用 <code>git rebase</code> 也很簡單，這次我們來刪除 jobs 相關的 commit，這次不會修改到 rules 相關的 commit，所以範圍指定到 ccf65d1：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git rebase -i ccf65d1</span><br></pre></td></tr></table></figure>
 

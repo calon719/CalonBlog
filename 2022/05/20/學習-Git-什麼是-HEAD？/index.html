@@ -163,6 +163,8 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout main</span><br><span class="line">Switched to branch main</span><br><span class="line">$ <span class="built_in">cat</span> .git/HEAD</span><br><span class="line">ref: refs/heads/main</span><br></pre></td></tr></table></figure>
 
 <p>又變回 main 分支了。</p>
+<br>
+
 <h2 id="斷頭狀態（detached-HEAD）"><a href="#斷頭狀態（detached-HEAD）" class="headerlink" title="斷頭狀態（detached HEAD）"></a>斷頭狀態（detached HEAD）</h2><p>我們在<a href="/CalonBlog/2022/05/16/%E5%AD%B8%E7%BF%92-Git-6-%E4%BF%AE%E6%94%B9-commit-%E7%B4%80%E9%8C%84-part-3%EF%BC%9ARebase/">學習 Git (6) - 修改 commit 紀錄 part 3：Rebase</a>使用 <code>git rebase</code> 修改 commit 紀錄時可以發現執行訊息有出現 detached HEAD 很多次，而 detached HEAD 也就是斷頭狀態又是什麼？<br>我們在上面介紹 HEAD 時說過 HEAD 是指向「現在所在的分支位置」，正常情況下分支會指向一個 commit，而 HEAD 會指向某個分支，但在有些情況下 HEAD <strong>沒有指向任何一個分支</strong>時的 HEAD 狀態就稱作 detached HEAD。</p>
 <p>datched HEAD 可能發生在：</p>
 <ol>
@@ -188,6 +190,8 @@
 <ol start="3">
 <li>切換到遠端分支的時候，遠端的介紹在後面會做介紹，而為什麼切到遠端分支也會造成 detached HEAD 的原因是因為 detached HEAD 準確來說是 HEAD 沒有指向<strong>本地</strong>的某個分支，所以當切換到遠端分支的時候就會造成 detached HEAD 狀態。</li>
 </ol>
+<br>
+
 <h2 id="離開-detached-HEAD-狀態"><a href="#離開-detached-HEAD-狀態" class="headerlink" title="離開 detached HEAD 狀態"></a>離開 detached HEAD 狀態</h2><p>既然知道了 detached HEAD 的狀態成因，所以我們只要將 HEAD 重新指向任何分支就可以解決此問題，例如我們把它指向回 main 分支：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git checkout main</span><br></pre></td></tr></table></figure>
 
