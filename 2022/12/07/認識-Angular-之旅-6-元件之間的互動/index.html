@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>認識 Angular 之旅 (6) - 元件之間的互動 | Calon's Blog</title><meta name="keywords" content="Angular,認識 Angular 之旅"><meta name="author" content="Calon"><meta name="copyright" content="Calon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Angular 是由許多元件組裝而成的，而這些元件有時候會是元件包元件的形式，這種元件包元件的巢狀元件之間會有個相對的關係，在外層的稱為父元件，在裡層的為子元件，在開發過程中有些時候我們會需要將資料從父元件傳送到子元件裡面，或是從子元件傳送處理過的資料給父元件，這個章節我們就是要來介紹父子元件之間要如傳送資料。 @Input 裝飾器 - 接收父元件的資料當我們要在子元件接收父元件的資料時會使用 @">
+<meta property="og:type" content="article">
+<meta property="og:title" content="認識 Angular 之旅 (6) - 元件之間的互動">
+<meta property="og:url" content="https://calon719.github.io/CalonBlog/2022/12/07/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85-6-%E5%85%83%E4%BB%B6%E4%B9%8B%E9%96%93%E7%9A%84%E4%BA%92%E5%8B%95/index.html">
+<meta property="og:site_name" content="Calon&#39;s Blog">
+<meta property="og:description" content="Angular 是由許多元件組裝而成的，而這些元件有時候會是元件包元件的形式，這種元件包元件的巢狀元件之間會有個相對的關係，在外層的稱為父元件，在裡層的為子元件，在開發過程中有些時候我們會需要將資料從父元件傳送到子元件裡面，或是從子元件傳送處理過的資料給父元件，這個章節我們就是要來介紹父子元件之間要如傳送資料。 @Input 裝飾器 - 接收父元件的資料當我們要在子元件接收父元件的資料時會使用 @">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg">
+<meta property="article:published_time" content="2022-12-07T04:13:05.000Z">
+<meta property="article:modified_time" content="2022-12-07T04:15:53.147Z">
+<meta property="article:author" content="Calon">
+<meta property="article:tag" content="Angular">
+<meta property="article:tag" content="認識 Angular 之旅">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg"><link rel="shortcut icon" href="/CalonBlog/img/favicon.png"><link rel="canonical" href="https://calon719.github.io/CalonBlog/2022/12/07/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85-6-%E5%85%83%E4%BB%B6%E4%B9%8B%E9%96%93%E7%9A%84%E4%BA%92%E5%8B%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/CalonBlog/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/CalonBlog/',
+  algolia: {"appId":"62YA7568QH","apiKey":"6fa9b41fa3a54b2b67dec7a9c51b195c","indexName":"Calon's Blog","hits":{"per_page":6},"languages":{"input_placeholder":"搜尋文章","hits_empty":"找不到您查詢的內容：${query}","hits_stats":"找到 ${hits} 條結果，用時 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '複製成功',
+    error: '複製錯誤',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '認識 Angular 之旅 (6) - 元件之間的互動',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-12-07 12:15:53'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/CalonBlog/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/CalonBlog/archives/"><div class="headline">文章</div><div class="length-num">46</div></a><a href="/CalonBlog/tags/"><div class="headline">標籤</div><div class="length-num">20</div></a><a href="/CalonBlog/categories/"><div class="headline">分類</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/CalonBlog/">Calon's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/CalonBlog/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/archives/"><i class="fa-fw fas fa-archive"></i><span> 文章</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/CalonBlog/series/"><i class="fa-fw fas fa-clipboard-list"></i><span> 系列文</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">認識 Angular 之旅 (6) - 元件之間的互動</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">發表於</span><time class="post-meta-date-created" datetime="2022-12-07T04:13:05.000Z" title="發表於 2022-12-07 12:13:05">2022-12-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新於</span><time class="post-meta-date-updated" datetime="2022-12-07T04:15:53.147Z" title="更新於 2022-12-07 12:15:53">2022-12-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/CalonBlog/categories/Angular/">Angular</a></span></div><div class="meta-secondline"></div></div></div><article class="post-content" id="article-container"><p>Angular 是由許多元件組裝而成的，而這些元件有時候會是元件包元件的形式，這種元件包元件的巢狀元件之間會有個相對的關係，在外層的稱為父元件，在裡層的為子元件，在開發過程中有些時候我們會需要將資料從父元件傳送到子元件裡面，或是從子元件傳送處理過的資料給父元件，這個章節我們就是要來介紹父子元件之間要如傳送資料。</p>
+<h2 id="Input-裝飾器-接收父元件的資料"><a href="#Input-裝飾器-接收父元件的資料" class="headerlink" title="@Input 裝飾器 - 接收父元件的資料"></a>@Input 裝飾器 - 接收父元件的資料</h2><p>當我們要在子元件接收父元件的資料時會使用 <code>@Input</code> 裝飾器，這邊要注意的是在使用時我們需要先將它從 <code>@angular/core</code> 中匯入才能做使用。之後我們可以用 <code>@Input</code> 裝飾器來定義要用來接收父元件資料的元件屬性，我們在這邊將上一章節的文字大小改變器變成一個新元件，所以首先新增一個 <code>fontsize-changer</code> 的元件，並在裡面使用 <code>@Input</code> 裝飾器定義接收的元件屬性，待會我們會從外層的根元件傳送資料給 <code>fontsize-changer</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Component</span>, <span class="title class_">OnInit</span>, <span class="title class_">Input</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">FontsizeChangerComponent</span> implements <span class="title class_">OnInit</span> &#123;</span><br><span class="line">  @<span class="title class_">Input</span>() size !:number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這邊因為我們沒有在一開始賦予 <code>size</code> 值但卻又指定了 <code>number</code> 型別，所以會因為型別而出錯，我們可以使用 <code>!</code> 運算子排除 <code>null</code> 和 <code>undefine</code> 來解決這個問題。接下來，我們到父元件裡面準備將我們的資料傳送到子元件裡面去，使用方法為子元件的標籤屬性中加上 <code>在子元件定義接收的屬性名稱=&quot;要傳送的資料&quot;</code>，在這裡我們要將父元件的屬性 <code>fontSize</code> 傳到子元件裡，所以需要使用到屬性繫結：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">  fontSize = <span class="number">16</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">app-fontsize-changer</span> [<span class="attr">size</span>]=<span class="string">&quot;fontSize&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-fontsize-changer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下來我們回到 fontsize-changer 元件中，在範本裡面將父元件的資料呈現在畫面上：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> [<span class="attr">style.fontSize.px</span>]=<span class="string">&quot;size&quot;</span>&gt;</span>目前子元件的文字大小：&#123;&#123; size &#125;&#125; px<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>當今天要傳送的資料不是太複雜的時候，我們也可以直接將要傳送的資料寫在屬性上：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">app-fontsize-changer</span> [<span class="attr">size</span>]=<span class="string">&quot;16&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-fontsize-changer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但要注意的是如果不使用屬性繫結的話，所有傳送到子元件的資料都會是字串型別，這是因為標籤屬性的值都會是字串型別。</p>
+<br>
+
+<h2 id="Attribute-裝飾器-傳送常數資料給子元件"><a href="#Attribute-裝飾器-傳送常數資料給子元件" class="headerlink" title="@Attribute 裝飾器 - 傳送常數資料給子元件"></a>@Attribute 裝飾器 - 傳送常數資料給子元件</h2><p>如果我們要傳送的資料是一個不會變動的常數，那麼我們可以使用 <code>@Attribute</code> 裝飾器，而因為這是一個常數所以我們不能使用任何繫結傳值，並且只能在子元件的 <code>constructor</code> 裡面做設定，一樣要記得使用時要從 <code>@angular/core</code> 匯入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Component</span>, <span class="title class_">OnInit</span>, <span class="title class_">Attribute</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">FontsizeChangerComponent</span> implements <span class="title class_">OnInit</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">@Attribute(<span class="string">&#x27;size&#x27;</span>) public size: string</span>) &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著到父元件將資料傳送到子元件裡：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">app-fontsize-changer</span> <span class="attr">size</span>=<span class="string">&quot;16&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-fontsize-changer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>這是使用 @Attribute 裝飾器傳入的值： &#123;&#123; size &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>再來到子元件的範本中將資料成現在畫面上：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>這是使用 @Attribute 裝飾器傳入的值： &#123;&#123; size &#125;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Output-裝飾器-在子元件中觸發父元件方法"><a href="#Output-裝飾器-在子元件中觸發父元件方法" class="headerlink" title="@Output 裝飾器 - 在子元件中觸發父元件方法"></a>@Output 裝飾器 - 在子元件中觸發父元件方法</h2><p>我們在之前章節中的範例文字大小改變器會將根據對應按鈕將文字大小改變後並即時更新在畫面上，在這裡我們會將在 fontsize-changer 元件裡面處理好的文字大小的值利用 <code>@Output</code> 裝飾器傳送回父元件，而跟 <code>@Input</code> 裝飾器不同的地方在於我們會自訂一個事件名稱並透過觸發父元件的方法來傳送資料，那在使用時要記得從 <code>@angular/core</code> 中匯入 <code>Output</code> 以及 <code>EventEmitter</code>，我們會先建立一個泛型型別的 <code>EventEmitter</code> 屬性，然後透過裡面的 <code>emit</code> 方法觸發父元件的資料並將資料作為參數傳送出去：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Component</span>, <span class="title class_">OnInit</span>, <span class="title class_">Input</span>, <span class="title class_">Output</span>, <span class="title class_">EventEmitter</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">FontsizeChangerComponent</span> implements <span class="title class_">OnInit</span> &#123;</span><br><span class="line">  @<span class="title class_">Input</span>() size !: number;</span><br><span class="line">  @<span class="title class_">Output</span>() emitSize =  <span class="keyword">new</span> <span class="title class_">EventEmitter</span>&lt;number&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="title function_">changeSize</span>(<span class="params">value: number</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">size</span> += value;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">emitSize</span>.<span class="title function_">emit</span>(<span class="variable language_">this</span>.<span class="property">size</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> (<span class="attr">click</span>)=<span class="string">&quot;changeSize(1)&quot;</span>&gt;</span>增加 1 px<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> (<span class="attr">click</span>)=<span class="string">&quot;changeSize(-1)&quot;</span>&gt;</span>減少 1 px<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下來到父元件，我們在上面有提到使用 <code>@Output</code> 裝飾器去定義一個自訂事件，所以在父元件中的 fontsize-changer 標籤屬性中會使用事件繫結來綁定子元件的事件並觸發父元件中的方法，以及使用 <code>$event</code> 參數區接收子元件傳送過來的資料：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppComponent</span> &#123;</span><br><span class="line">  fontSize = <span class="number">16</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">changeFontSize</span>(<span class="params">size: number</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">fontSize</span> = size;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">app-fontsize-changer</span> [<span class="attr">size</span>]=<span class="string">&quot;fontSize&quot;</span> (<span class="attr">emitSize</span>)=<span class="string">&quot;changeFontSize($event)&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-fontsize-changer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最後我們在父元件中新增一個 p 標籤將資料呈現在畫面上：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> [<span class="attr">style.fontSize.px</span>]=<span class="string">&quot;fontSize&quot;</span>&gt;</span>目前父元件的文字大小：&#123;&#123; fontSize &#125;&#125; px<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h2 id="雙向繫結（Two-way-Binding）"><a href="#雙向繫結（Two-way-Binding）" class="headerlink" title="雙向繫結（Two-way Binding）"></a>雙向繫結（Two-way Binding）</h2><p>我們在上面的範例中我們將父元件的文字尺寸透過屬性繫結傳入子元件中，然後子元件再將處理過的文字尺寸在傳回父元件中，這種接收傳送同一屬性的情況，Angular 提供了雙向繫結來簡化我們的程式碼。</p>
+<p>首先我們先回到 <code>fontsize-changer</code> 元件中將 <code>@Output</code> 裝飾器定義的屬性名稱修改成「@Input 裝飾器定義的輸入屬性名稱 + Change」，在 <code>changeSize</code> 方法裡面原本使用的輸出屬性名稱也記得要做修改：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">FontsizeChangerComponent</span> implements <span class="title class_">OnInit</span> &#123;</span><br><span class="line">  @<span class="title class_">Input</span>() size !: number;</span><br><span class="line">  @<span class="title class_">Output</span>() sizeChange = <span class="keyword">new</span> <span class="title class_">EventEmitter</span>&lt;number&gt;();</span><br><span class="line"></span><br><span class="line">  <span class="title function_">changeSize</span>(<span class="params">value: number</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">size</span> += value;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">sizeChange</span>.<span class="title function_">emit</span>(<span class="variable language_">this</span>.<span class="property">size</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下來我們回來父元件，準備用雙向繫結的方式簡化我們的程式碼，而雙向繫結的寫法如下：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tag</span> [(<span class="attr">子元件設定的屬性名稱</span>)]=<span class="string">&quot;父元件要傳送接收的屬性&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>修改後的程式碼：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">app-fontsize-changer</span> [(<span class="attr">size</span>)]=<span class="string">&quot;fontSize&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-fontsize-changer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果會忘記中括號和括號的位置，可以將它記成裝在箱子裡的香蕉。</p>
+<br>
+
+<h2 id="範本參考變數（Template-Refrence-Variables）"><a href="#範本參考變數（Template-Refrence-Variables）" class="headerlink" title="範本參考變數（Template Refrence Variables）"></a>範本參考變數（Template Refrence Variables）</h2><p>我們前面介紹的範例最後都會將資料傳回父元件，其實我們也可以直接使用子元件的資料以及方法，這個作法叫做範本參考變數（Template Refrence Variables），它可以在範本上去設定區域變數，而這個區域變數會儲存標籤元素的 DOM 物件，使用方法為 <code>ref-變數名稱</code> 或是使用語法糖 <code>#變數名稱</code>：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tag</span> <span class="attr">ref-變數名稱</span>&gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tag</span> #<span class="attr">變數名稱</span>&gt;</span><span class="tag">&lt;/<span class="name">tag</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>而因為這會是一個物件，所以要取用裡面的資料和方法時與一般讀取物件屬性時一樣，我們來將範例修改直接讀取 <code>fontsize-changer</code> 中的尺寸大小：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">app-fontsize-changer</span> #<span class="attr">fontsizeChanger</span> [<span class="attr">size</span>]=<span class="string">&quot;fontSize&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">app-fontsize-changer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> [<span class="attr">style.fontSize.px</span>]=<span class="string">&quot;fontsizeChanger.size&quot;</span>&gt;</span>目前父元件的文字大小：&#123;&#123; fontsizeChanger.size &#125;&#125; px<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/CalonBlog/tags/Angular/">Angular</a><a class="post-meta__tags" href="/CalonBlog/tags/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85/">認識 Angular 之旅</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" data-sites="facebook,twitter"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/CalonBlog/2022/12/02/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85-5-%E8%B3%87%E6%96%99%E7%B9%AB%E7%B5%90%EF%BC%88Data-Binding%EF%BC%89/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" onerror="onerror=null;src='/CalonBlog/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">認識 Angular 之旅 (5) - 資料繫結（Data Binding）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關推薦</span></div><div class="relatedPosts-list"><div><a href="/CalonBlog/2022/09/20/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85-1-%E4%BB%80%E9%BA%BC%E6%98%AF-Angular/" title="認識 Angular 之旅 (1) - 什麼是 Angular"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-20</div><div class="title">認識 Angular 之旅 (1) - 什麼是 Angular</div></div></a></div><div><a href="/CalonBlog/2022/09/22/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85-2-%E5%AE%89%E8%A3%9D-Angular/" title="認識 Angular 之旅 (2) - 安裝 Angular"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-22</div><div class="title">認識 Angular 之旅 (2) - 安裝 Angular</div></div></a></div><div><a href="/CalonBlog/2022/09/26/%E8%AA%8D%E8%AD%98-Angular-%E4%B9%8B%E6%97%85-3-%E5%B0%88%E6%A1%88%E6%9E%B6%E6%A7%8B%E7%B0%A1%E4%BB%8B/" title="認識 Angular 之旅 (3) - 專案架構簡介"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-26</div><div class="title">認識 Angular 之旅 (3) - 專案架構簡介</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 評論</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Input-%E8%A3%9D%E9%A3%BE%E5%99%A8-%E6%8E%A5%E6%94%B6%E7%88%B6%E5%85%83%E4%BB%B6%E7%9A%84%E8%B3%87%E6%96%99"><span class="toc-text">@Input 裝飾器 - 接收父元件的資料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Attribute-%E8%A3%9D%E9%A3%BE%E5%99%A8-%E5%82%B3%E9%80%81%E5%B8%B8%E6%95%B8%E8%B3%87%E6%96%99%E7%B5%A6%E5%AD%90%E5%85%83%E4%BB%B6"><span class="toc-text">@Attribute 裝飾器 - 傳送常數資料給子元件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Output-%E8%A3%9D%E9%A3%BE%E5%99%A8-%E5%9C%A8%E5%AD%90%E5%85%83%E4%BB%B6%E4%B8%AD%E8%A7%B8%E7%99%BC%E7%88%B6%E5%85%83%E4%BB%B6%E6%96%B9%E6%B3%95"><span class="toc-text">@Output 裝飾器 - 在子元件中觸發父元件方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%99%E5%90%91%E7%B9%AB%E7%B5%90%EF%BC%88Two-way-Binding%EF%BC%89"><span class="toc-text">雙向繫結（Two-way Binding）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AF%84%E6%9C%AC%E5%8F%83%E8%80%83%E8%AE%8A%E6%95%B8%EF%BC%88Template-Refrence-Variables%EF%BC%89"><span class="toc-text">範本參考變數（Template Refrence Variables）</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background: #000000"><div id="footer-wrap"><div class="copyright">&copy;2022 By Calon</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="淺色和深色模式轉換"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄和雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直達評論"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到頂部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="search-wrap"><div id="algolia-search-input"></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-info"><div class="algolia-stats"></div><div class="algolia-poweredBy"></div></div></div></div></div><div id="search-mask"></div></div><div><script src="/CalonBlog/js/utils.js"></script><script src="/CalonBlog/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.jsdelivr.net/npm/algoliasearch/dist/algoliasearch-lite.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instantsearch.js/dist/instantsearch.production.min.js"></script><script src="/CalonBlog/js/search/algolia.js"></script><div class="js-pjax"><script>function loadUtterances () {
+  let ele = document.createElement('script')
+  ele.setAttribute('id', 'utterances_comment')
+  ele.setAttribute('src', 'https://utteranc.es/client.js')
+  ele.setAttribute('repo', 'calon719/CalonBlog')
+  ele.setAttribute('issue-term', 'pathname')
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+  ele.setAttribute('theme', nowTheme)
+  ele.setAttribute('crossorigin', 'anonymous')
+  ele.setAttribute('async', 'true')
+  document.getElementById('utterances-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function utterancesTheme () {
+  const iframe = document.querySelector('.utterances-frame')
+  if (iframe) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    const message = {
+      type: 'set-theme',
+      theme: theme
+    };
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+}
+
+if ('Utterances' === 'Utterances' || !true) {
+  if (true) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+  else loadUtterances()
+} else {
+  function loadOtherComment () {
+    loadUtterances()
+  }
+}</script></div></div></body></html>
